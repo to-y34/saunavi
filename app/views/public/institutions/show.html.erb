@@ -1,0 +1,17 @@
+
+<h1><%= @institution.name %></h1>
+
+<% if @institution.image.attached? %>
+  <%= image_tag @institution.image, size: "200x200" %>
+<% else %>
+  <%= image_tag 'no_image', size: "200x200" %>
+<% end %></br>
+<%= @institution.address %></br>
+<%= Institution.areas_i18n[@institution.area] %></br>
+<%= @institution.link %></br>
+営業時間<%= @institution.start_time.strftime( "%H:%M" ) %>〜<%= @institution.finish_time.strftime( "%H:%M" ) %></br>
+<%= @institution.price %>円</br>
+<%= @institution.telephone_number %></br>
+<%= @institution.introduction %><br>
+<h2><%= link_to "編集", edit_institution_path(@institution.id) %></h2>
+<h2><%= link_to "削除", institution_path(@institution.id), method: :delete, "data-confirm" => "本当に削除しますか？" %></h2>

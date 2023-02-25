@@ -1,2 +1,18 @@
-<h1>Public::Users#edit</h1>
-<p>Find me in app/views/public/users/edit.html.erb</p>
+<%= form_with model: @user, url: user_path, method: :patch do |f| %>
+<%= f.label :ニックネーム %>
+  <%= f.text_field :nickname %></br>
+  
+   <%= f.label :年齢 %>
+  <%= f.text_field :age %></br>
+  
+   <%= f.label :自己紹介 %>
+  <%= f.text_field :introduction %></br>
+  
+  <%= f.radio_button :sex, User.sexes.key(0) %>
+  <%= f.label :sex, User.sexes_i18n[:man] %>
+  
+  <%= f.radio_button :sex, User.sexes.key(1) %>
+  <%= f.label :sex, User.sexes_i18n[:woman] %><br>
+  
+  <%= f.submit "編集内容保存" %>
+  <% end %>

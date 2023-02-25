@@ -1,0 +1,31 @@
+<%= form_with model: @institution, url: institution_path, method: :patch do |f| %>
+
+<%= f.label :施設名 %>
+<%= f.text_field :name %></br>
+
+<%= f.label :image, '画像' %>
+<%= f.file_field :image  %></br>
+
+<%= f.label :住所 %>
+<%= f.text_field :address %></br>
+
+<%= f.label :地域 %>
+<%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %>
+</br>
+
+<%= f.label :ホームページ %>
+<%= f.text_field :link %></br>
+
+<%= f.label :営業時間 %></br>
+<%= f.time_select :start_time %>~<%= f.time_select :finish_time %></br>
+
+<%= f.label :利用料金 %>
+<%= f.text_field :price %></br>
+
+<%= f.label :電話番号 %>
+<%= f.text_field :telephone_number %></br>
+
+<%= f.label :基本情報 %>
+<%= f.text_area :introduction %></br>
+ <%= f.submit '編集内容を保存', class: 'btn btn-success px-4' %>
+<% end %>

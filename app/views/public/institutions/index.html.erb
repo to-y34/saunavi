@@ -1,0 +1,34 @@
+<%= link_to '施設新規登録', new_institution_path, class: 'btn btn-success px-4' %>
+<div class="container">
+  <div class="row">
+      
+      <div class="col-md-8 offset-md-1">
+        <h2>施設</h2>
+        <table class="table">
+            <thead>
+                <th></th>
+                <th>施設名</th>
+                <th>エリア</th>
+                <th clospan="3"></th>
+            </thead>
+            <% @institutions.each do |institution| %>
+          <tbody>
+              <td>
+                  <%= link_to institution_path(institution.id) do %>
+                   <%= image_tag institution.image, size: "120x120" %>
+                    <% end %>
+              </td>
+              <td>
+            <%= link_to institution_path(institution.id) do %>
+              <%= institution.name %>
+                <% end %>
+              </td>    
+                  <td>
+                    <%= Institution.areas_i18n[institution.area] %>
+                  </td>
+                  <% end %>
+          </tbody>          
+        </table>
+      </div>
+  </div>
+</div>
