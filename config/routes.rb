@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
  
+  
    # 顧客用
 # URL /customers/sign_in ...
 devise_for :users,skip: [:passwords], controllers: {
@@ -10,8 +11,10 @@ devise_for :users,skip: [:passwords], controllers: {
   scope module: 'public' do
     root to: "homes#top"
     get "about" => "homes#about"
-    resources :users, only: [:show, :edit, :cancel, :update]
-    resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy]
+    resources :users, only: [:show, :edit, :update]
+    resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do
+      get :search, on: :collection
+    end  
   end
  
 # 管理者用
@@ -19,5 +22,9 @@ devise_for :users,skip: [:passwords], controllers: {
 devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
   sessions: "admin/sessions"
 }
+
+namespace :admin do
+   resources :users, only: [:index, :show, :edit, :update]
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

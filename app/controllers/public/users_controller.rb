@@ -14,8 +14,17 @@ class Public::UsersController < ApplicationController
   end  
     
 
-  def cancel
+  def close
+    @user = current_user
+    @user.update(is_closed: true)
+    sign_out
+    redirect_to root_path
   end
+
+  
+  def colse
+    @user = current_user
+  end  
   
   private
   def user_params

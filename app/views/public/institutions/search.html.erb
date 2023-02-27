@@ -1,17 +1,6 @@
-<%= link_to '施設新規登録', new_institution_path, class: 'btn btn-success px-4' %>
-<div class="container">
-  <div class="row">
-   
-   <div class="post_search">
-  <%= form_with url: search_institutions_path, method: :get, local: true do |f| %>
-    <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
-    <%= f.button :type => "submit" do %>
-      <i class="fas fa-search"></i>
-    <% end %>
-  <% end %>
-</div>
-      
-      <div class="col-md-8 offset-md-1">
+<h2><%= @section_title %></h2>
+
+<div class="col-md-8 offset-md-1">
         <h2>施設</h2>
         <table class="table">
             <thead>
@@ -39,5 +28,3 @@
           </tbody>          
         </table>
       </div>
-  </div>
-</div>

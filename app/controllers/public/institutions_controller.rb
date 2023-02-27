@@ -13,6 +13,17 @@ class Public::InstitutionsController < ApplicationController
   def index
     @institutions = Institution.all
   end
+  
+  def search
+  @section_title = "「#{params[:search]}」の検索結果"
+  @institutions = if params[:search].present?
+             Institution.where(['name LIKE ? OR address LIKE ?',
+                        "%#{params[:search]}%", "%#{params[:search]}%"])
+                 
+           else
+             Institution.none
+           end
+  end
 
   def show
     @institution = Institution.find(params[:id])
