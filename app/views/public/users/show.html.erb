@@ -4,3 +4,26 @@
 <h1><%= User.sexes_i18n[@user.sex] %></h1>
 <h1><%= @user.email %></h1>
 <h1><%= link_to "編集", edit_user_path(@user.id) %></h1>
+<table>
+  <caption>ブックマーク一覧</caption>
+  <thead>
+    <tr>
+      <th>投稿者名</th>
+      <th>施設名</th>
+      <th>本文</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bookmarks.each do |bookmark| %>
+      <tr>
+        <td><%= bookmark.institution.name %></td>
+        <td>
+          <%= link_to institution_path(bookmark.institution) do %>
+            <%= bookmark.institution.name %>
+          <% end %>
+        </td>
+        <td><%= bookmark.institution.introduction %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

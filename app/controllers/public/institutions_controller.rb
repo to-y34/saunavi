@@ -20,13 +20,15 @@ class Public::InstitutionsController < ApplicationController
              Institution.where(['name LIKE ? OR address LIKE ?',
                         "%#{params[:search]}%", "%#{params[:search]}%"])
                  
-           else
-             Institution.none
-           end
+  else
+   Institution.none
+  end
   end
 
   def show
     @institution = Institution.find(params[:id])
+    @review = Review.new
+    @reviews = @institution_Review
   end
 
   def edit

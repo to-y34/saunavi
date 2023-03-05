@@ -1,0 +1,13 @@
+<%= @review.title %>
+<%= link_to '削除', institution_review_path(@institution,@review.id), method: :delete, "data-confirm" => "本当に消しますか？" %></br>
+
+<% @review.comments.each do |comment| %>
+<%= comment.user.nickname %>
+<%= comment.text %></br>
+<% end %>
+<%= form_with model: [@institution,@review,@comment] do |f| %>
+
+<%= f.text_area :text %>
+<%= f.submit "コメント投稿" %>
+<% end %>
+

@@ -1,0 +1,6 @@
+<% @reviews.each do |review| %>
+<%= link_to admin_review_path(review.id) do %>
+<%= review.user.nickname %>
+<%= review.title %></br>
+<% end %>
+<% end %>

@@ -1,0 +1,2 @@
+<%= @review.title %>
+<%= link_to "削除", admin_review_path(@review.id), method: :delete, "data-confirm" => "本当に消しますか？" %>

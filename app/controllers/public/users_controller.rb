@@ -1,6 +1,7 @@
 class Public::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
+    @bookmarks = Bookmark.where(user_id: current_user.id)
   end
 
   def edit
@@ -22,12 +23,12 @@ class Public::UsersController < ApplicationController
   end
 
   
-  def colse
+  def close
     @user = current_user
   end  
   
   private
   def user_params
-    params.require(:user).permit(:nickname, :age, :sex, :introduction)
+    params.require(:user).permit(:nickname, :age, :sex, :introduction, :image)
   end  
 end

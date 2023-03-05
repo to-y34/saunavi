@@ -10,5 +10,7 @@ class User < ApplicationRecord
          has_many    :likes,   dependent: :destroy
          has_many    :reviews,   dependent: :destroy
          
+         has_one_attached :image
+         
          enum sex: { man: 0, woman: 1}
 end

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
  
   
+ 
+ 
    # 顧客用
 # URL /customers/sign_in ...
 devise_for :users,skip: [:passwords], controllers: {
@@ -12,7 +14,14 @@ devise_for :users,skip: [:passwords], controllers: {
     root to: "homes#top"
     get "about" => "homes#about"
     resources :users, only: [:show, :edit, :update]
-    resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do
+    resources :institutions, except: [:index] do
+    resource :bookmarks, only: [:create, :destroy]
+  end
+    resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do 
+     
+      resources :reviews, only: [:new, :show, :create, :destroy, :edit, :update] do
+        resources :comments, only: [:create, :destroy]
+      end
       get :search, on: :collection
     end  
   end
@@ -25,6 +34,7 @@ devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
 
 namespace :admin do
    resources :users, only: [:index, :show, :edit, :update]
+   resources :reviews, only: [:index, :show, :destroy]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
