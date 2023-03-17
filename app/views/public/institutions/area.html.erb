@@ -2,22 +2,7 @@
 <div class="container">
   <div class="row">
    
-   <div class="post_search">
-  <%= form_with url: search_path, method: :get, local: true do |f| %>
-    <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
-    <%= f.button :type => "submit" do %>
-      <i class="fas fa-search"></i>
-    <% end %>
-  <% end %>
-</div>
-
-<div class="area_search">
-  <%= form_with url: area_path, method: :get, local: true do |f| %>
-  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %>
-  <%= f.button :type => "submit" do %>
-  <% end %>
-  <% end %>
-</div>
+   
       
       <div class="col-md-8 offset-md-1">
         <h2>施設</h2>
@@ -31,7 +16,7 @@
             <% @institutions.each do |institution| %>
           <tbody>
               <td>
-                  <%= link_to institution_path(institution.id) do %>
+                   <%= link_to institution_path(institution.id) do %>
                   <% if institution.images.attached? %>
                    <%= image_tag institution.images.first, size: "120x120" %>
                   <% else %>

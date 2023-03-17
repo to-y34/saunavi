@@ -1,13 +1,63 @@
-<%= @review.title %>
-<%= link_to '削除', institution_review_path(@institution,@review.id), method: :delete, "data-confirm" => "本当に消しますか？" %></br>
+<div class="container">
+   <div class="row pt-5">
+    <div class="col-md-5 offset-md-3">
+<table class="table">
+ <tr>
+  <th>
+    <%= image_tag @review.user.get_profile_image(50,50), class: "rounded-circle" %><%= @review.user.nickname %>さんのレビュー
+    <%= link_to 'レビュー削除', institution_review_path(@institution,@review.id), method: :delete, "data-confirm" => "本当に消しますか？" %></br>
 
+  </th>
+  </tr>
+<tr>
+<div class="relative-post-evaluation">
+  <th>
+  <h4><%= @review.title %>
+  <span id="star-rate-<%= @review.id %>"></span>
+  <script>
+    var elm = document.getElementById("star-rate-<%= @review.id %>")
+    var opt = {
+      size: 36,
+      starOff: "<%= asset_path('star-off.png') %>",
+      starOn: "<%= asset_path('star-on.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      half: true,   
+      readOnly: true,   
+      score: <%= @review.star %>,   
+    }
+     raty(elm, opt);
+  </script>
+  <%= @review.star %><h4>
+</div>    
+    </th>
+    </tr>
+    <tr>
+      <th>
+      <p>訪問日<%= @review.date %></p>
+<%= @review.content %>
+</th>
+<tr>
+
+
+
+<tr>
+  <th>
 <% @review.comments.each do |comment| %>
-<%= comment.user.nickname %>
+<%= image_tag comment.user.get_profile_image(30,30), class: "rounded-circle" %>
+<%= comment.user.nickname %><%= comment.created_at.strftime('%m/%d %H:%M') %></br>
 <%= comment.text %></br>
 <% end %>
 <%= form_with model: [@institution,@review,@comment] do |f| %>
+<%= f.text_area :text, placeholder: "コメントを入力",:size=>"30" %><br>
 
-<%= f.text_area :text %>
-<%= f.submit "コメント投稿" %>
+<%= f.submit "コメント送信", class: "btn btn-success" %>
+
 <% end %>
+<th>
+</tr>
+</tbody>
+</table>
 
+</div>
+</div>
+</div>

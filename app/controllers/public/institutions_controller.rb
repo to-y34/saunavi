@@ -14,6 +14,10 @@ class Public::InstitutionsController < ApplicationController
     @institutions = Institution.all
   end
   
+  def area
+    @institutions = Institution.where(area: params[:area])
+  end  
+  
   def search
   @section_title = "「#{params[:search]}」の検索結果"
   @institutions = if params[:search].present?
@@ -50,7 +54,7 @@ class Public::InstitutionsController < ApplicationController
   
   private
   def institution_params
-   params.require(:institution).permit(:name, :address, :area, :link, :start_time, :finish_time, :price, :telephone_number, :introduction, :image)
+   params.require(:institution).permit(:name, :address, :area, :link, :start_time, :finish_time, :price, :telephone_number, :introduction, images: [])
   end 
   
 end

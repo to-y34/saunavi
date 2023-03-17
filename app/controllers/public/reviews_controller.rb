@@ -8,7 +8,7 @@ class Public::ReviewsController < ApplicationController
     @review= Review.new(review_params)
     @review.institution = @institution
     @review.user = current_user
-    @review.save
+    @review.save!
     redirect_to institution_review_path(@institution,@review)
   end
 
@@ -34,6 +34,6 @@ class Public::ReviewsController < ApplicationController
   
   private
   def review_params
-   params.require(:review).permit(:title, :star, :content, :date, :food_name, :food_address, :food_comment, :trip_name, :trip_address, :trip_comment)
+   params.require(:review).permit(:title, :star, :content, :date, :food_name, :food_address, :food_comment, :trip_name, :trip_address, :trip_comment, :image, :food_image, :trip_image)
   end 
 end

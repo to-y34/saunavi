@@ -1,30 +1,52 @@
+<div class="container">
+   <div class="row pt-5">
+    <div class="col-xl-9 ml-auto">
+
 <%= form_with model: @institution, url: '/institutions', method: :post do |f| %>
-<%= f.label :施設名 %>
-<%= f.text_field :name %></br>
-
-<%= f.label :image, '画像' %>
-<%= f.file_field :image  %></br>
-
-<%= f.label :住所 %>
-<%= f.text_field :address %></br>
-
-<%= f.label :地域 %>
-<%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %>
-</br>
-
-<%= f.label :ホームページ %>
-<%= f.text_field :link %></br>
-
-<%= f.label :営業時間 %></br>
-<%= f.time_select :start_time %>~<%= f.time_select :finish_time %></br>
-
-<%= f.label :利用料金 %>
-<%= f.text_field :price %></br>
-
-<%= f.label :電話番号 %>
-<%= f.text_field :telephone_number %></br>
-
-<%= f.label :基本情報 %>
-<%= f.text_area :introduction %></br>
- <%= f.submit '施設登録', class: 'btn btn-success px-4' %>
+<h4>施設新規登録</h4>
+<table>
+<tr>
+<td><%= f.label :施設名 %></td>
+<td><%= f.text_field :name %></td>
+</tr>
+<tr>
+<td><%= f.label :image, '画像' %></td>
+<td><%= f.file_field :images, multiple: true  %></td>
+</tr>
+<tr>
+<td><%= f.label :地域 %></td>
+<td><%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %></td>
+</tr>
+<tr>
+<td><%= f.label :住所 %></td>
+<td><%= f.text_field :address %></td>
+</tr>
+<tr>
+<td><%= f.label :ホームページ %></td>
+<td><%= f.text_field :link %></td>
+</tr>
+<tr>
+<td><%= f.label :営業時間 %></td>
+<td><%= f.time_select :start_time %>~<%= f.time_select :finish_time %></td>
+</tr>
+<tr>
+<td><%= f.label :利用料金 %></td>
+<td><%= f.text_field :price %></td>
+</tr>
+<tr>
+<td><%= f.label :電話番号 %></td>
+<td><%= f.text_field :telephone_number %></td>
+</tr>
+<tr>
+<td><%= f.label :基本情報 %></td>
+<td><%= f.text_area :introduction %></td>
+</tr>
+<tr>
+<td></td>
+<td><%= f.submit '施設登録', class: 'btn btn-success px-4' %></td>
 <% end %>
+</tr>
+</table>
+</div>
+</div>
+</div>

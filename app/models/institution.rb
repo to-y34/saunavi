@@ -6,8 +6,24 @@ class Institution < ApplicationRecord
    def bookmarked_by?(user)
     bookmarks.where(user_id: user).exists?
    end
+   
+   def avg_score
+    unless self.reviews.empty?
+      reviews.average(:star_id).round(1)
+    else
+      0.0
+    end
+   end
+
+  def avg_score_percentage
+   unless self.reviews.empty?
+     reviews.average(:star_id).round(1).to_f*100/5
+   else
+     0.0
+   end
+  end
     
-    has_one_attached :image
+     has_many_attached :images
     
-    enum area: { ho:0, ao:1, iw:2, mi:3, ak:4, ym:5, hk:6, ib:7, to:8, gu:9, sa:10, ti:11, to:12, ka:13, ni:14, to:15, is:16, hu:17, ya:18, na:19, gi:20, si:21, ai:22, mi:23, si:24, ky:25, oo:26, hy:27, na:28, wa:29, to:30, si:31, ok:32, hi:33, ya:34, to:35, ka:36, eh:37, ko:38, hu:39, sa:40, na:41, ku:42, oo:43, mi:44, ka:45, ok:46 } 
+    enum area: { hokkaido:0, aomori:1, iwate:2, miyagi:3, akita:4, yamagata:5, hukusima:6, ibaraki:7, tochigi:8, gunma:9, saitama:10, tiba:11, tokyo:12, kanagawa:13, niigata:14, toyama:15, isikawa:16, hukui:17, yamanasi:18, nagano:19, gifu:20, sizuoka:21, aichi:22, mie:23, siga:24, kyoto:25, oosaka:26, hyogo:27, nara:28, wakayama:29, tottori:30, simane:31, okayama:32, hirosima:33, yamaguti:34, tokusima:35, kagawa:36, ehime:37, kouti:38, hukuoka:39, saga:40, nagasaki:41, kumamoto:42, ooita:43, miyazaki:44, kagosima:45, okinawa:46 } 
 end

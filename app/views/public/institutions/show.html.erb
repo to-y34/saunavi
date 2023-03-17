@@ -1,18 +1,123 @@
-
+<div class="container">
+  <div class="row pt-5">
+    <div class="col-md-8 offset-md-1">
+<table class="table">
+<tr>
+  <th>
 <h1><%= @institution.name %></h1>
 
-<% if @institution.image.attached? %>
-  <%= image_tag @institution.image, size: "200x200" %>
+  <h3><span id="star-rate-<%= @institution.id %>"></span>
+  <script>
+    var elm = document.getElementById("star-rate-<%= @institution.id %>")
+    var opt = {
+      size: 36,
+      starOff: "<%= asset_path('star-off.png') %>",
+      starOn: "<%= asset_path('star-on.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      half: true,   
+      readOnly: true,   
+      score: <%= @institution.reviews.average(:star).to_f.round(1) %>   
+    }
+     raty(elm, opt);
+  </script>
+  <%= @institution.reviews.average(:star).to_f.round(1) %></h3>
+  </th>
+  <th>
+  <div class="offset-md-3 pt-1">
+    <%= @institution.reviews.count %>件のレビュー
+    <%= @institution.bookmarks.count %>件のお気に入り
+  </div>
+  </th>
+  </tr>
+  <tr>
+    <th><h3>サ活</h3></th></tr>
+    
+    <% @institution.reviews.each do |review| %>
+    <tr>
+      <th>
+    <%= image_tag review.user.get_profile_image(30,30), class: "rounded-circle" %>
+    <%= review.user.nickname %><%= review.created_at.strftime('%m/%d %H:%M') %></br>
+    
+     <h4><%= link_to institution_review_path(@institution,review.id) do %>
+    <%= review.title %>
+    <% end %></h4>
+    
+    
+   
+    </th>
+    
+     <th><span id="star-rate-<%= review.id %>"></span>
+  <script>
+    var elm = document.getElementById("star-rate-<%= review.id %>")
+    var opt = {
+      size: 36,
+      starOff: "<%= asset_path('star-off.png') %>",
+      starOn: "<%= asset_path('star-on.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      half: true,   
+      readOnly: true,   
+      score: <%= review.star %>,   
+    }
+     raty(elm, opt);
+  </script>
+  <%= review.star %>
+  </th>
+    
+    
+    <% end %>
+    
+    
+  </tr>
+  </table>
+ <div class="container py-5">
+  <h4><span class="bg-light text-secondary px-3">施設基本情報</span></h4>
+  </div>
+  <table class="table table-bordered col-12">
+        <tbody>
+          <tr>
+            <td class="bg-light">施設名</td>
+            <td><%= @institution.name %></td>
+          </tr>
+          <tr>
+            <td class="bg-light">住所</td>
+            <td><%= @institution.address %></td>
+          </tr>  
+          <tr>
+            <td class="bg-light">営業時間</td>
+            <td><%= @institution.start_time.strftime( "%H:%M" ) %>〜<%= @institution.finish_time.strftime( "%H:%M" ) %></td>
+          </tr>  
+          <tr>
+            <td class="bg-light">基本料金</td>
+            <td><%= @institution.price %>円</td>
+          </tr> 
+          <tr>
+            <td class="bg-light">ホームページ</td>
+            <td><%= @institution.link %></td>
+          </tr>  
+          <tr>
+            <td class="bg-light">電話番号</td>
+            <td><%= @institution.telephone_number %></td>
+          </tr> 
+          <tr>
+            <td class="bg-light">基本情報</td>
+            <td><%= @institution.introduction %></td>
+          </tr> 
+</table>
+
+
+<% if @institution.images.attached? %>
+  <% @institution.images.each do |image| %>
+    <%= image_tag image.variant(resize: '100x100') %>
+  <% end %>
 <% else %>
   <%= image_tag 'no_image', size: "200x200" %>
-<% end %></br>
-<%= @institution.address %></br>
-<%= Institution.areas_i18n[@institution.area] %></br>
-<%= @institution.link %></br>
-営業時間<%= @institution.start_time.strftime( "%H:%M" ) %>〜<%= @institution.finish_time.strftime( "%H:%M" ) %></br>
-<%= @institution.price %>円</br>
-<%= @institution.telephone_number %></br>
-<%= @institution.introduction %><br>
+<% end %></br>  
+
+
+
+  
+  
+
 <h2><%= link_to "編集", edit_institution_path(@institution.id) %></h2>
 <h2><%= link_to "削除", institution_path(@institution.id), method: :delete, "data-confirm" => "本当に削除しますか？" %></h2></br>
 
@@ -21,6 +126,10 @@
     <% else %>
       <td><%= link_to "ブックマーク", institution_bookmarks_path(@institution), method: :post %></td>
     <% end %>
+   
+    </div>
+    </div>
+    </div>
 
 <%= form_with model: [@institution,@review] do |f| %>
 
@@ -28,26 +137,31 @@
   <%= f.label :star, "星評価：" %>
   <%= f.hidden_field :star, id: :review_star %>
   <script>
-    $('#star').raty({
+    var elm = document.getElementById("star")
+    var opt = {
       size     : 36,
       starOff:  '<%= asset_path('star-off.png') %>',
       starOn : '<%= asset_path('star-on.png') %>',
       starHalf: '<%= asset_path('star-half.png') %>',
-      scoreName: 'post[star]',   # starカラムへの保存
-      half: true,   # 星半分の入力
-    });
+      scoreName: 'review[star]',
+      half: true,
+    }
+    raty(elm, opt);
   </script>
 </div>
 
 タイトル<%= f.text_field :title %></br>
+<%= f.file_field :image %></br>
 レビュー内容<%= f.text_area :content %></br>
 訪問日<%= f.date_field :date %></br>
 
 サウナ飯名<%= f.text_field :food_name %></br>
+<%= f.file_field :food_image %>
 サウナ飯住所<%= f.text_field :food_address %></br>
 サウナ飯コメント<%= f.text_field :food_comment %></br>
 
 サウナ観光地名<%= f.text_field :trip_name %></br>
+<%= f.file_field :trip_image %>
 サウナ観光地住所<%= f.text_field :trip_address %></br>
 サウナ観光地コメント<%= f.text_field :trip_comment %></br>
 

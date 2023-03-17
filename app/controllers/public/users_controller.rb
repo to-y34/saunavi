@@ -23,12 +23,12 @@ class Public::UsersController < ApplicationController
   end
 
   
-  def close
+  def cancel
     @user = current_user
   end  
   
   private
   def user_params
-    params.require(:user).permit(:nickname, :age, :sex, :introduction, :image)
+    params.require(:user).permit(:nickname, :age, :sex, :introduction, :profile_image)
   end  
 end

@@ -21,4 +21,9 @@ ActiveStorage.start()
 require("jquery") 
 
 window.$ = window.jQuery = require('jquery');
-require('packs/raty')
+import Raty from "../packs/raty"
+window.raty = function(elem,opt){
+  var raty =  new Raty(elem,opt)
+  raty.init();
+  return raty;
+}
