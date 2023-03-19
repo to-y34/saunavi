@@ -66,42 +66,23 @@
               </h3>
           </th>
         </tr>
-        <% @institution.reviews.each do |review| %>
-          <tr>
-            <th>
-              <%= link_to user_path(review.user.id) do %>
-                <%= image_tag review.user.get_profile_image(30,30), class: "rounded-circle" %>
-                  <% end %>
-                    <%= review.user.nickname %>
-                      <%= review.created_at.strftime('%m/%d %H:%M') %>
-                        </br>
-                        <h4>
-                          <%= link_to institution_review_path(@institution,review.id) do %>
-                            <%= review.title %>
-                              <% end %>
-                        </h4>
-            </th>
-            <th><span id="star-rate-<%= review.id %>"></span>
-              <script>
-                var elm = document.getElementById("star-rate-<%= review.id %>")
-                var opt = {
-                  size: 36,
-                  starOff: "<%= asset_path('star-off.png') %>",
-                  starOn: "<%= asset_path('star-on.png') %>",
-                  starHalf: "<%= asset_path('star-half.png') %>",
-                  half: true,   
-                  readOnly: true,   
-                  score: <%= review.star %>,   
-                }
-                 raty(elm, opt);
-              </script>
-              <%= review.star %></br>
-              
-              <%= review.likes.count %>いいね
-              <%= review.comments.count %>コメント
-            </th>
+        <tr>
+          <th colspan='3'>
+            <div class="row">
+            <% @institution.reviews.each do |review| %>
+              <% if review.food_image.attached? %>
+                <div class="col-md-4">
+                <%= link_to institution_review_path(@institution,review.id) do %>
+                  <%= image_tag review.food_image,width:"100%" %><br>
+                    <%= review.food_name %>
+                <% end %>
+                </div>
+              <% end %>
             <% end %>
-              <table>
+            </div>
+       　</th>
+        </tr>
+             <table>
           <tr>
             <td>
               

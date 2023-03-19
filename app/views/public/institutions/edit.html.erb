@@ -1,5 +1,7 @@
 <div class="container">
    <div class="row pt-5">
+       
+       
     <div class="col-xl-9 ml-auto">
 <%= form_with model: @institution, url: institution_path, method: :patch do |f| %>
 
@@ -43,8 +45,12 @@
 </tr>
 <tr>
 <td></td>
-<td><%= f.submit '編集内容を保存', class: 'btn btn-success px-4' %></td>
+<td><%= f.submit '編集内容を保存', class: 'btn btn-success px-4' %>
 <% end %>
+<% if @institution.user ==current_user %>
+           <%= link_to "削除", institution_path(@institution.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: 'btn btn-danger px-4'  %>
+           <% else %>
+           <% end %></td>
 </tr>
 </table>
 </div>

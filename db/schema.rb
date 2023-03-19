@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_01_124013) do
+ActiveRecord::Schema.define(version: 2023_03_19_133038) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -87,10 +87,8 @@ ActiveRecord::Schema.define(version: 2023_03_01_124013) do
   create_table "likes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "review_id"
-    t.integer "comment_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["comment_id"], name: "index_likes_on_comment_id"
     t.index ["review_id"], name: "index_likes_on_review_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
@@ -133,7 +131,6 @@ ActiveRecord::Schema.define(version: 2023_03_01_124013) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "institutions"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "likes", "comments"
   add_foreign_key "likes", "reviews"
   add_foreign_key "likes", "users"
 end

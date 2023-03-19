@@ -1,6 +1,7 @@
 class Public::ReviewsController < ApplicationController
   def new
     @review = Review.new
+    @institution = Institution.find(params[:institution_id])
   end
   
   def create

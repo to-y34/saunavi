@@ -1,29 +1,34 @@
-<%= form_with model: @review, url: '/reviews', method: :post do |f| %>
+<%= form_with model: [@institution,@review] do |f| %>
 
 <div class="field" id="star">
   <%= f.label :star, "星評価：" %>
   <%= f.hidden_field :star, id: :review_star %>
   <script>
-    $('#star').raty({
+    var elm = document.getElementById("star")
+    var opt = {
       size     : 36,
       starOff:  '<%= asset_path('star-off.png') %>',
       starOn : '<%= asset_path('star-on.png') %>',
       starHalf: '<%= asset_path('star-half.png') %>',
-      scoreName: 'post[star]',   # starカラムへの保存
-      half: true,   # 星半分の入力
-    });
+      scoreName: 'review[star]',
+      half: true,
+    }
+    raty(elm, opt);
   </script>
 </div>
 
 タイトル<%= f.text_field :title %></br>
+<%= f.file_field :image %></br>
 レビュー内容<%= f.text_area :content %></br>
 訪問日<%= f.date_field :date %></br>
 
 サウナ飯名<%= f.text_field :food_name %></br>
+<%= f.file_field :food_image %>
 サウナ飯住所<%= f.text_field :food_address %></br>
 サウナ飯コメント<%= f.text_field :food_comment %></br>
 
-サウナ観光地名<%= f.text_field :trip__name %></br>
+サウナ観光地名<%= f.text_field :trip_name %></br>
+<%= f.file_field :trip_image %>
 サウナ観光地住所<%= f.text_field :trip_address %></br>
 サウナ観光地コメント<%= f.text_field :trip_comment %></br>
 

@@ -1,6 +1,7 @@
 class Public::InstitutionsController < ApplicationController
   def new
     @institution = Institution.new
+    
   end
   
   def create
@@ -34,6 +35,18 @@ class Public::InstitutionsController < ApplicationController
     @review = Review.new
     @reviews = @institution_Review
   end
+
+  def food
+    @institution = Institution.find(params[:institution_id])
+    @review = Review.new
+    @reviews = @institution_Review
+  end  
+
+  def trip
+    @institution = Institution.find(params[:institution_id])
+    @review = Review.new
+    @reviews = @institution_Review
+  end  
 
   def edit
     @institution = Institution.find(params[:id])

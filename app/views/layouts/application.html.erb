@@ -22,16 +22,20 @@
             <ul class="navbar-nav ml-auto">
     <% if user_signed_in? %>         
               <li>
-                <%= link_to user_path(current_user.id), class: "nav-link text-light"  do %> <i class="fas fa-home"></i>マイページ
+                <%= link_to new_institution_path, class: "nav-link text-light"  do %><i class="fas fa-plus"></i>施設登録
                   <% end %>
               </li>
               
               <li>
-                <%= link_to institutions_path, class: "nav-link text-light"  do %> <i class="fas fa-book-open"></i>サウナ一覧
+                <%= link_to institutions_path, class: "nav-link text-light"  do %> <i class="fas fa-fire"></i>サウナ一覧
                   <% end %>
               </li>
               <li>
                 <%= link_to destroy_user_session_path, class: "nav-link text-light", method: :delete do %><i class="fas fa-sign-out-alt"></i>ログアウト
+                  <% end %>
+              </li>
+              <li>
+                <%= link_to user_path(current_user.id), class: "nav-link text-light"  do %> <%= image_tag current_user.get_profile_image(30,30), class: "rounded-circle" %>
                   <% end %>
               </li>
   <% elsif admin_signed_in? %>
@@ -39,19 +43,19 @@
     
   <% else %>
               <li>
-                <%= link_to root_path, class: "nav-link text-light"  do %> <i class="fas fa-home"></i>Home
+                <%= link_to institutions_path, class: "nav-link text-light"  do %> <i class="fas fa-fire"></i>サウナ一覧
                   <% end %>
               </li>
               <li>
-                <%= link_to about_path, class: "nav-link text-light"  do %> <i class="fas fa-link"></i>About
+                <%= link_to about_path, class: "nav-link text-light"  do %> <i class="fas fa-link"></i>さうなびとは
                   <% end %>
               </li>
               <li>
-                <%= link_to new_user_registration_path, class: "nav-link text-light"  do %><i class="fas fa-user-plus"></i>Sign up
+                <%= link_to new_user_registration_path, class: "nav-link text-light"  do %><i class="fas fa-user-plus"></i>新規登録
                   <% end %>
               </li>
               <li>
-                <%= link_to new_user_session_path, class: "nav-link text-light" do %><i class="fas fa-sign-in-alt"></i>Log in
+                <%= link_to new_user_session_path, class: "nav-link text-light" do %><i class="fas fa-sign-in-alt"></i>ログイン
                   <% end %>
               </li>
              <% end %>

@@ -20,17 +20,25 @@ devise_for :users,skip: [:passwords], controllers: {
     get "users/cancel" => "users#cancel"
     resources :users, only: [:show, :edit, :update]
     resources :institutions, except: [:index] do
-    resource :bookmarks, only: [:create, :destroy]
-  end
+     resource :bookmarks, only: [:create, :destroy]
+     get "food" => "institutions#food"
+     get "trip" => "institutions#trip"
+    end
+    
+    
   
     get "search" => "institutions#search"
     get "area" => "institutions#area"
     
     
+    
     resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do 
      
       resources :reviews, only: [:new, :show, :create, :destroy, :edit, :update] do
-        resources :comments, only: [:create, :destroy]
+        resource :likes, only: [:create, :destroy]
+        resources :comments, only: [:create, :destroy] do
+           resource :likes, only: [:create, :destroy]
+        end   
       end
     end  
   end
