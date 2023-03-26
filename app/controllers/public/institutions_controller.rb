@@ -1,14 +1,19 @@
 class Public::InstitutionsController < ApplicationController
+   before_action :authenticate_user!, except: [:index, :area, :search, :show, :food, :trip]
+  
   def new
     @institution = Institution.new
-    
   end
   
   def create
     @institution = Institution.new(institution_params)
     @institution.user = current_user
-    @institution.save
-    redirect_to institutions_path
+    if @institution.save
+      flash[:notice] = "施設を登録しました"
+      redirect_to institutions_path
+    else
+      render :new
+    end  
   end  
 
   def index
@@ -54,8 +59,12 @@ class Public::InstitutionsController < ApplicationController
   
   def update
     @institution = Institution.find(params[:id])
-    @institution.update(institution_params)
-    redirect_to institution_path(@institution.id)
+    if @institution.update(institution_params)
+      flash[:notice] = "施設情報を編集しました"
+    　redirect_to institution_path(@institution.id)
+    else
+      render :edit
+    end  
   end
   
   def destroy

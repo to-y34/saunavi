@@ -11,7 +11,7 @@
     <div class="col-md-12 mt-5">
       <p class="text-center">
       退会すると、会員登録情報や<br>
-      これまでの購入履歴が閲覧できなくなります。<br>
+      これまでの投稿履歴が閲覧できなくなります。<br>
       退会する場合は、「退会する」をクリックしてください。
       </p>
     </div>
@@ -22,7 +22,7 @@
       <%= link_to "退会しない", user_path(@user.id), class: "btn btn-outline-primary" %>
     </div>
     <div class="col-md-3 mt-5 mb-5">
-      <%= link_to "退会する", user_close_path, method: :patch, class: "btn btn-outline-danger" %>
+      <%= link_to "退会する", users_close_path, method: :patch, class: "btn btn-outline-danger" %>
     </div>
   </div>
 </div>

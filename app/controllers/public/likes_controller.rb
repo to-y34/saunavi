@@ -1,4 +1,5 @@
 class Public::LikesController < ApplicationController
+ before_action :authenticate_user!
  
  def create
      @review_like = Like.new(user_id: current_user.id, review_id: params[:review_id])

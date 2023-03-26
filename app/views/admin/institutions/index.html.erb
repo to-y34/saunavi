@@ -1,8 +1,29 @@
 <div class="container">
-
-<div class="row pt-5">
-    <h2><%= @section_title %></h2>
-<div class="col-md-11">
+  <div>
+  <%= flash[:notice] %>
+  </div>
+  <div class="row pt-4">
+   <div class="col-md-3 offset-md-2">
+   <div class="post_search">
+  <%= form_with url: search_path, method: :get, local: true do |f| %>
+    
+    <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+    <%= f.submit "検索" %>
+  <% end %>
+   
+</div>
+</div>
+<div class="col-md-5">
+<div class="area_search">
+  <%= form_with url: area_path, method: :get, local: true do |f| %>
+  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %>
+  <%= f.submit "エリア検索" %>
+  
+  <% end %>
+</div>
+</div>
+      
+      <div class="col-md-11">
         <h2>サウナ一覧</h2>
         <table class="table">
             <thead>
@@ -14,16 +35,16 @@
             <% @institutions.each do |institution| %>
           <tbody>
               <td>
-                  <%= link_to institution_path(institution.id) do %>
+                  <%= link_to admin_institution_path(institution.id) do %>
                   <% if institution.images.attached? %>
-                   <%= image_tag institution.image, size: "120x120" %>
-                   <% else %>
-                    <%= image_tag 'no.images', size: "120x120" %>
-                   <% end %>   
-                    <% end %>
+                   <%= image_tag institution.images.first, size: "120x120" %>
+                  <% else %>
+                   <%= image_tag 'no.images', size: "120x120" %>
+                  <% end %>   
+                  <% end %>
               </td>
               <td>
-            <%= link_to institution_path(institution.id) do %>
+            <%= link_to admin_institution_path(institution.id) do %>
               <%= institution.name %>
                 <% end %>
                 <h3><span id="star-rate-<%= institution.id %>"></span>
@@ -48,11 +69,13 @@
             
               </td>    
                   <td>
+                    
                     <%= Institution.areas_i18n[institution.area] %>
+            
                   </td>
                   <% end %>
           </tbody>          
         </table>
-        </div>
-        </div>
       </div>
+  </div>
+</div>

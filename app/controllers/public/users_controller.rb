@@ -1,7 +1,9 @@
 class Public::UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:show]
+  before_action :is_matching_login_user, only: [:edit, :update,]
   def show
     @user = User.find(params[:id])
-    @bookmarks = Bookmark.where(user_id: current_user.id)
+    @bookmarks = Bookmark.where(user_id: @user)
   end
 
   def edit
@@ -10,25 +12,36 @@ class Public::UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
-    redirect_to user_path(@user.id)
+    if @user.update(user_params)
+      flash[:notice] = "プロフィールを編集しました"
+      redirect_to user_path(@user.id)
+    else
+      render :edit
+    end  
   end  
     
 
   def close
     @user = current_user
-    @user.update(is_closed: true)
+    @user.update(is_deleted: true)
     sign_out
     redirect_to root_path
   end
 
   
-  def cancel
+  def withdraw
     @user = current_user
   end  
   
   private
   def user_params
     params.require(:user).permit(:nickname, :age, :sex, :introduction, :profile_image)
-  end  
+  end
+  
+  def is_matching_login_user
+    user = User.find(params[:id])
+    unless user.id == current_user.id
+      redirect_to root_path
+    end
+  end
 end

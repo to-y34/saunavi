@@ -1,31 +1,40 @@
 <div class="container">
+  <div>
+  <%= flash[:notice] %>
+  </div>
   <div class="row pt-4">
-   <div class="col-md-3 offset-md-2">
+   <div class="col-md-3 offset-md-1">
    <div class="post_search">
   <%= form_with url: search_path, method: :get, local: true do |f| %>
-    <div>
-    <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
-    <%= f.submit "検索", class: "btn btn-primary" %>
+    <div class="input-group mb-3">
+      <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+      <div class="input-group-append">
+        <%= f.submit "検索", class: 'btn btn-outline-secondary' %>
+      </div>
+    </div>
   <% end %>
-   </div>
+   
 </div>
 </div>
 <div class="col-md-5">
 <div class="area_search">
   <%= form_with url: area_path, method: :get, local: true do |f| %>
-  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %>
-  <%= f.button :type => "submit" do %>
-  <% end %>
+  <div class="input-group mb-3">
+  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  } %>
+  <div class="input-group-append">
+  <%= f.submit "エリア検索", class: 'btn btn-outline-secondary' %>
+  </div>
+  </div>
   <% end %>
 </div>
 </div>
       
-      <div class="col-md-8 offset-md-1">
-        <h2>施設</h2>
+      <div class="col-md-11">
+        <h2>サウナ一覧</h2>
         <table class="table">
-            <thead>
+            <thead class="thead-light">
                 <th></th>
-                <th>施設名</th>
+                <th>サウナ名</th>
                 <th>エリア</th>
                 <th clospan="3"></th>
             </thead>
@@ -36,7 +45,7 @@
                   <% if institution.images.attached? %>
                    <%= image_tag institution.images.first, size: "120x120" %>
                   <% else %>
-                   <%= image_tag 'no_image', size: "120x120" %>
+                   <%= image_tag 'no.images', size: "120x120" %>
                   <% end %>   
                   <% end %>
               </td>
@@ -44,6 +53,26 @@
             <%= link_to institution_path(institution.id) do %>
               <%= institution.name %>
                 <% end %>
+                <h3><span id="star-rate-<%= institution.id %>"></span>
+              <script>
+                var elm = document.getElementById("star-rate-<%= institution.id %>")
+                $("#star-rate-<%= institution.id %>").empty();
+                var opt = {
+                  size: 36,
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  half: true,   
+                  readOnly: true,   
+                  score: <%= institution.reviews.average(:star).to_f.round(1) %>   
+                }
+                 raty(elm, opt);
+              </script>
+              <%= institution.reviews.average(:star).to_f.round(1) %>
+            </h3>
+            <i class="far fa-comment"></i><%= institution.reviews.count %>人　
+            <i class="far fa-bookmark"></i><%= institution.bookmarks.count %>人
+            
               </td>    
                   <td>
                     <%= Institution.areas_i18n[institution.area] %>

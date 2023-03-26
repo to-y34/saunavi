@@ -1,6 +1,59 @@
-<h1><%= @user.nickname %></h1>
-<h1><%= @user.age %>歳</h1>
-<h1><%= @user.introduction %></h1>
-<h1><%= User.sexes_i18n[@user.sex] %></h1>
-<h1><%= @user.email %></h1>
-<h1><%= link_to "編集", edit_user_path(@user.id) %></h1>
+<div class="container">
+  <div>
+  <%= flash[:notice] %>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-1">
+      <h1><%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
+      
+      <%= @user.nickname %>
+      (<%= @user.age %>)</h1>
+      </div>
+      
+      
+      <div class="col-md-2">
+      <%= @user.introduction %>
+     </div>
+     <div class="col-md-1 offset-md-1">
+       
+      <%= link_to edit_admin_user_path(@user.id), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-user-cog"></i>
+      <% end %>
+     
+     </div>
+    </div>
+  </div>
+  <div class="row pt-2">
+    
+    <div class="col-md-5 offset-md-3">
+      <table class="table">
+        <tr>
+          <th>
+            <h3><%= @user.nickname %>さんのレビュー
+            </h3></th>
+          <th>
+            <h5>
+              
+              <%= @user.reviews.count %>件のレビュー
+            </h5></th>
+        </tr>
+        
+          <% @user.reviews.each do |review| %>
+          <tr>
+          <th>
+          <%= review.user.nickname %>
+                      <%= review.created_at.strftime('%m/%d %H:%M') %>
+                        </br>
+                        <h4>
+                          <%= link_to institution_review_path(review.institution_id,review.id) do %>
+                            <%= review.title %>
+                              <% end %>
+                              </h4>
+                              </th>
+                          <th><%= review.likes.count %>いいね
+              <%= review.comments.count %>コメント</th>    
+            <% end %>
+
+        </tr>
+        </table>
+  </div>
+</div>

@@ -5,7 +5,7 @@
    
       
       <div class="col-md-8 offset-md-1">
-        <h2>施設</h2>
+        <h2>サウナ一覧</h2>
         <table class="table">
             <thead>
                 <th></th>
@@ -20,7 +20,7 @@
                   <% if institution.images.attached? %>
                    <%= image_tag institution.images.first, size: "120x120" %>
                   <% else %>
-                   <%= image_tag 'no_image', size: "120x120" %>
+                   <%= image_tag 'no.images', size: "120x120" %>
                   <% end %>   
                   <% end %>
               </td>

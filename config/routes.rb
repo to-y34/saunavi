@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   #ゲストログイン
   devise_scope :user do
     post "public/guest_sign_in", to: "public/sessions#guest_sign_in"
@@ -17,7 +18,8 @@ devise_for :users,skip: [:passwords], controllers: {
   scope module: 'public' do
     root to: "homes#top"
     get "about" => "homes#about"
-    get "users/cancel" => "users#cancel"
+    get "users/withdraw" => "users#withdraw"
+    patch "/users/close" => "users#close"
     resources :users, only: [:show, :edit, :update]
     resources :institutions, except: [:index] do
      resource :bookmarks, only: [:create, :destroy]
@@ -26,7 +28,7 @@ devise_for :users,skip: [:passwords], controllers: {
     end
     
     
-  
+    
     get "search" => "institutions#search"
     get "area" => "institutions#area"
     
@@ -34,7 +36,7 @@ devise_for :users,skip: [:passwords], controllers: {
     
     resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do 
      
-      resources :reviews, only: [:new, :show, :create, :destroy, :edit, :update] do
+      resources :reviews, only: [:new, :show, :create, :update, :destroy] do
         resource :likes, only: [:create, :destroy]
         resources :comments, only: [:create, :destroy] do
            resource :likes, only: [:create, :destroy]
@@ -50,8 +52,11 @@ devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
 }
 
 namespace :admin do
+   resources :institutions, only: [:index, :show, :edit, :update , :destroy]
    resources :users, only: [:index, :show, :edit, :update]
+   
    resources :reviews, only: [:index, :show, :destroy]
+   resources :comments, only: [:destroy]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

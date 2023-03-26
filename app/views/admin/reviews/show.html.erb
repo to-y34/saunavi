@@ -1,2 +1,108 @@
-<%= @review.title %>
-<%= link_to "削除", admin_review_path(@review.id), method: :delete, "data-confirm" => "本当に消しますか？" %>
+<div class="container">
+  <div>
+  <%= flash[:notice] %>
+  </div>
+  <div class="row pt-5">
+    <div class="col-md-6 offset-md-3">
+        <%= link_to 'レビュー削除', admin_review_path(@review.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-danger px-2' %>
+            <table class="table">
+              <tr>
+                <th>
+                  <%= link_to admin_user_path(@review.user.id) do %>
+                    <%= image_tag @review.user.get_profile_image(50,50), class: "rounded-circle" %>
+                      <% end %>
+                        <%= @review.user.nickname %>さんのレビュー </th>
+                <th>
+                
+                                  <%= @review.likes.count %>いいね
+                                    <%= @review.comments.count %>コメント 
+                </th>
+              </tr>
+              <tr>
+                <th colspan='2'>
+                  <%= @review.title %> <span id="star-rate-<%= @review.id %>"></span>
+                    <script>
+                      var elm = document.getElementById("star-rate-<%= @review.id %>")
+                      $("#star-rate-<%= @review.id %>").empty();
+                      var opt = {
+                        size: 36,
+                        starOff: "<%= asset_path('star-off.png') %>",
+                        starOn: "<%= asset_path('star-on.png') %>",
+                        starHalf: "<%= asset_path('star-half.png') %>",
+                        half: true,   
+                        readOnly: true,   
+                        score: <%= @review.star %>,   
+                      }
+                       raty(elm, opt);
+                    </script>
+                    <%= @review.star %> 　　　 </th>
+              </tr>
+              <tr>
+                <th colspan='2'>
+                  <div>訪問日
+                    <%= @review.date %>
+                  </div>
+                  <% if @review.image.attached? %>
+                    <div class="col-md-12 offset-md-3">
+                      <%= image_tag @review.image, size: "200x200" %>
+                    </div>
+                    <% end %>
+                      <div class="col-md-12 offset-md-1">
+                        <%= @review.content %>
+                      </div>
+                </th>
+              </tr>
+              <% if @review.food_image.attached? %>
+                <tr>
+                  <th colspan='2'>
+                    <div class="col-md-12 offset-md-3">
+                      <%= @review.food_name %>
+                    </div>
+                    <div class="col-md-12 offset-md-1"> サ食住所(
+                      <%= @review.food_address %>) </div>
+                    <div class="col-md-12 offset-md-3">
+                      <%= image_tag @review.food_image, size: "200x200" %>
+                    </div>
+                    <div class="col-md-12 offset-md-1">
+                      <%= @review.food_comment %>
+                    </div>
+                    </td>
+                </tr>
+                <% end %>
+                  <% if @review.trip_image.attached? %>
+                    <tr>
+                      <th colspan='2'>
+                        <div class="col-md-12 offset-md-3">
+                          <%= @review.trip_name %>
+                        </div>
+                        <div class="col-md-12 offset-md-1"> 観光住所(
+                          <%= @review.trip_address %>) </div>
+                        <div class="col-md-12 offset-md-3">
+                          <%= image_tag @review.trip_image, size: "200x200" %>
+                        </div>
+                        <div class="col-md-12 offset-md-1">
+                          <%= @review.trip_comment %>
+                        </div>
+                        </td>
+                    </tr>
+                    <% end %>
+                      <tr>
+                        <th colspan='2'>
+                          <div class="col-md-12 offset-md-2">
+                            <% @review.comments.each do |comment| %>
+                            <%= link_to admin_user_path(comment.user.id) do %>
+                              <%= image_tag comment.user.get_profile_image(30,30), class: "rounded-circle" %>
+                            <% end %>  
+                                <%= comment.user.nickname %>
+                                  <%= comment.created_at.strftime('%m/%d %H:%M') %>
+                                    </br>
+                                    <%= comment.text %>
+                                      </br>
+                                      <% end %>
+                                        
+                            </th>
+                      </tr>
+            </table>
+    </div>
+  </div>
+</div>

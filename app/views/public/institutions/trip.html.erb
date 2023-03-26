@@ -1,4 +1,7 @@
 <div class="container">
+  <div>
+  <%= flash[:notice] %>
+  </div>
   <div class="row pt-4">
     <div class="col-md-1 offset-md-8">
       <% if @institution.bookmarked_by?(current_user) %>
@@ -29,6 +32,7 @@
             <h3><span id="star-rate-<%= @institution.id %>"></span>
               <script>
                 var elm = document.getElementById("star-rate-<%= @institution.id %>")
+                $("#star-rate-<%= @institution.id %>").empty();
                 var opt = {
                   size: 36,
                   starOff: "<%= asset_path('star-off.png') %>",
@@ -51,19 +55,27 @@
           </th>
         </tr>
         <tr>
-          <th>
+          <th colspan='3'>
+            <div class="row">
+               <div class="col-md-4">
+             <h2>
               <%= link_to  institution_path(@institution), class: "btn btn-outline-white btn-block" do  %> サ活
                 <% end %>
-          </th>
-          <th>
-              <%= link_to  institution_food_path(@institution), class: "bg-secondary text-white" do  %> サ食
+              </h2>
+              </div>
+           <div class="col-md-4">
+            <h2>
+              <%= link_to  institution_food_path(@institution), class: "btn btn-outline-white btn-block" do  %> サ食
                 <% end %>
-          </th>
-          <th>
-              <h3>
-                <%= link_to  institution_trip_path(@institution), class: "text-secondary" do  %> サ旅
+            </h2> 
+            </div>
+           <div class="col-md-4">
+              <h2>
+                <%= link_to  institution_trip_path(@institution), class:  "btn btn-outline-white btn-block border-bottom" do  %> サ旅
                   <% end %>
-              </h3>
+              </h2>
+            </div>  
+              </div>
           </th>
         </tr>
         <tr>
@@ -103,7 +115,7 @@
                   <% end %>
                 <% else %>
                   <div class="col-md-4">
-                    <%= image_tag 'no_image', size: "200x200" %>
+                    <%= image_tag 'no.images', size: "200x200" %>
                   </div>
                 <% end %>
               </div>

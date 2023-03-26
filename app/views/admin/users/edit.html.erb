@@ -1,18 +1,51 @@
-<%= form_with model: @user, url: user_path, method: :patch do |f| %>
-<%= f.label :ニックネーム %>
-  <%= f.text_field :nickname %></br>
+<div class="container">
+  <div class="row pt-5">
+    <div class="col-xl-9 ml-auto">
+<%= form_with model: @user, url: admin_user_path, method: :patch do |f| %>
+<h4>会員情報編集</h4>
+<table>
+  <tr>
+  <td><%= f.label :ニックネーム %></td>
+  <td><%= f.text_field :nickname,:size=>"40" %></td>
+  </tr>
+  <tr>
+  <td><%= f.label :profile_image, '画像' %></td>
+  <td><%= f.file_field :profile_image  %></td>
+  </tr>
+  <tr>
+   <td><%= f.label :年齢 %></td>
+  <td><%= f.text_field :age,:size=>"40" %></td>
+  <tr>
+   <td><%= f.label :自己紹介 %></td>
+  <td><%= f.text_field :introduction,:size=>"40" %></td>
+  </tr>
   
-   <%= f.label :年齢 %>
-  <%= f.text_field :age %></br>
-  
-   <%= f.label :自己紹介 %>
-  <%= f.text_field :introduction %></br>
-  
-  <%= f.radio_button :sex, User.sexes.key(0) %>
+  <tr>
+    <td><%= f.label :性別 %></td>
+  <td><%= f.radio_button :sex, User.sexes.key(0) %>
   <%= f.label :sex, User.sexes_i18n[:man] %>
   
   <%= f.radio_button :sex, User.sexes.key(1) %>
-  <%= f.label :sex, User.sexes_i18n[:woman] %><br>
+  <%= f.label :sex, User.sexes_i18n[:woman] %></td>
+  </tr>
+  <tr>
+   <td>
+     <%= f.label :"会員ステータス" %>
+   </td> 
+    <td>
+        <%= f.radio_button :is_deleted, false %> 
+          <%= f.label :is_deleted, "有効" %> 
+           <%= f.radio_button :is_deleted, true %> 
+             <%= f.label :is_deleted, "退会済" %> 　 </td>
+            </tr>
   
-  <%= f.submit "編集内容保存" %>
-  <% end %>
+ <tr>
+   <td></td>
+   <td><%= f.submit "編集内容保存", class: "btn btn-success ml-5" %></td>
+ </tr>
+ <% end %>
+</table>
+
+</div>
+ </div>
+ </div>

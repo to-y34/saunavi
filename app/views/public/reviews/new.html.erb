@@ -1,36 +1,163 @@
 <%= form_with model: [@institution,@review] do |f| %>
 
-<div class="field" id="star">
-  <%= f.label :star, "星評価：" %>
-  <%= f.hidden_field :star, id: :review_star %>
-  <script>
-    var elm = document.getElementById("star")
-    var opt = {
-      size     : 36,
-      starOff:  '<%= asset_path('star-off.png') %>',
-      starOn : '<%= asset_path('star-on.png') %>',
-      starHalf: '<%= asset_path('star-half.png') %>',
-      scoreName: 'review[star]',
-      half: true,
-    }
-    raty(elm, opt);
-  </script>
+<table>
+    <tr>
+      <td>
+ <div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;">➕サ飯レビューの追加</a>
 </div>
+<!--// 折り畳み展開ポインタ -->
 
-タイトル<%= f.text_field :title %></br>
-<%= f.file_field :image %></br>
-レビュー内容<%= f.text_area :content %></br>
-訪問日<%= f.date_field :date %></br>
-
+<!-- 折り畳まれ部分 -->
+<div id="open" style="display:none;clear:both;">
 サウナ飯名<%= f.text_field :food_name %></br>
 <%= f.file_field :food_image %>
 サウナ飯住所<%= f.text_field :food_address %></br>
 サウナ飯コメント<%= f.text_field :food_comment %></br>
+</div>
+uuuu</br>
+uuuu
 
+<div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
+<a style="cursor:pointer;">➕サ旅レビューの追加</a>
+</div>
+<!--// 折り畳み展開ポインタ -->
+
+<!-- 折り畳まれ部分 -->
+<div id="open" style="display:none;clear:both;">
 サウナ観光地名<%= f.text_field :trip_name %></br>
 <%= f.file_field :trip_image %>
 サウナ観光地住所<%= f.text_field :trip_address %></br>
 サウナ観光地コメント<%= f.text_field :trip_comment %></br>
+</div>
 
-<%= f.submit 'レビュー投稿', class: 'btn btn-success px-4' %>
 <% end %>
+</td>
+  </tr>
+  </table>
+
+
+
+
+<div class="container">
+  <div class="row pt-5">
+    <div class="col-xl-9 ml-auto">
+      <%= form_with model: [@institution,@review] do |f| %>
+        <h4>サウナレビュー</h4>
+         <table>
+           <tr>
+             <td>
+        <div class="field" id="star">
+
+          <%= f.label :star, "星評価：" %>
+            <%= f.hidden_field :star, id: :review_star %>
+              <script>
+                var elm = document.getElementById("star")
+                var opt = {
+                  size     : 36,
+                  starOff:  '<%= asset_path('star-off.png') %>',
+                  starOn : '<%= asset_path('star-on.png') %>',
+                  starHalf: '<%= asset_path('star-half.png') %>',
+                  scoreName: 'review[star]',
+                  half: true,
+                }
+                raty(elm, opt);
+              </script>
+        </div>
+        </td>
+        </tr>
+          <tr>
+            <td>タイトル</td>
+            <td>
+              <%= f.text_field :title %>
+            </td>
+          </tr>
+          <tr>
+            <td>画像</td>
+            <td>
+              <%= f.file_field :image %>
+            </td>
+          </tr>
+          <tr>
+            <td>レビュー内容</td>
+            <td>
+              <%= f.text_area :content %>
+            </td>
+          </tr>
+          <tr>
+            <td>訪問日</td>
+            <td>
+              <%= f.date_field :date %>
+            </td>
+          </tr>
+          
+          <style>
+            tr.open2 {
+              display: none;
+            }
+          </style>
+          <script>
+            function toggleRows(class_name) {
+              let rows = Array.from(document.querySelectorAll('.' + class_name))
+              rows.forEach(row => {
+                row.style.display = (row.style.display == 'none') ? 'table-row' : 'none'
+              })
+            }
+          </script>
+          <tr onclick="toggleRows('open2')">
+            <td><a style="cursor:pointer;">➕サ飯レビューの追加</a></td>
+          </tr>
+          <!--// 折り畳み展開ポインタ -->
+
+          <!-- 折り畳まれ部分 -->
+          <tr class="open2">
+            <td>サウナ飯名</td>
+            <td><%= f.text_field :food_name %></td>
+          </tr>
+          <tr class="open2">
+            <td></td>
+            <td><%= f.file_field :food_image %></td>
+          </tr>
+          <tr class="open2">
+            <td>サウナ飯住所</td>
+            <td><%= f.text_field :food_address %></td>
+          </tr>
+          <tr class="open2">
+            <td>サウナ飯コメント</td>
+            <td><%= f.text_field :food_comment %></td>
+          </tr>
+          <style>
+            tr.open1 {
+              display: none;
+            }
+          </style>
+         
+          <tr onclick="toggleRows('open1')">
+            <td><a style="cursor:pointer;">➕サ旅レビューの追加</a></td>
+          </tr>
+          <!--// 折り畳み展開ポインタ -->
+
+          <!-- 折り畳まれ部分 -->
+          <tr class="open1">
+            <td>サウナ旅先名</td>
+            <td><%= f.text_field :trip_name %></td>
+          </tr>
+          <tr class="open1">
+            <td>サウナ旅画像</td>
+            <td><%= f.file_field :trip_image %></td>
+          </tr>
+          <tr class="open1">
+            <td>サウナ旅住所</td>
+            <td><%= f.text_field :trip_address %></td>
+          </tr>
+          <tr class="open1">
+            <td>サウナ旅コメント</td>
+            <td><%= f.text_field :trip_comment %></td>
+          </tr>
+          
+        </table>
+        <%= f.submit 'レビュー投稿', class: 'btn btn-success px-4' %>
+          <% end %>
+    </div>
+  </div>
+</div>

@@ -4,20 +4,13 @@
   </div>
   <div class="row pt-4">
     <div class="col-md-1 offset-md-8">
-      <% if @institution.bookmarked_by?(current_user) %>
-        <%= link_to  institution_bookmarks_path(@institution), method: :delete, class: "btn btn-outline-secondary btn-block" do  %> <i class="fas fa-bookmark"></i>
-          <% end %>
-            <% else %>
-              <%= link_to  institution_bookmarks_path(@institution), method: :post, class: "btn btn-outline-secondary btn-block" do  %> <i class="far fa-bookmark"></i>
-                <% end %>
-                  <% end %>
+     
     </div>
     <div class="col-md-1">
-      <%= link_to new_institution_review_path(@institution), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-pencil-alt"></i>
-        <% end %>
+      
     </div>
     <div class="col-md-1">
-      <%= link_to edit_institution_path(@institution), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-cog"></i>
+      <%= link_to edit_admin_institution_path(@institution), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-cog"></i>
         <% end %>
     </div>
   </div>
@@ -55,46 +48,54 @@
           </th>
         </tr>
         <tr>
-          <th colspan='3'>
+           <th colspan='3'>
             <div class="row">
-               <div class="col-md-4">
+               <div class="col-md-8">
              <h2>
-              <%= link_to  institution_path(@institution), class: "btn btn-outline-white btn-block" do  %> サ活
-                <% end %>
+             レビュー一覧
               </h2>
               </div>
-           <div class="col-md-4">
-            <h2>
-              <%= link_to  institution_food_path(@institution), class: "btn btn-outline-white btn-block border-bottom" do  %> サ食
-                <% end %>
-            </h2> 
-            </div>
-           <div class="col-md-4">
-              <h2>
-                <%= link_to  institution_trip_path(@institution), class:  "btn btn-outline-white btn-block" do  %> サ旅
-                  <% end %>
-              </h2>
-            </div>  
+           
               </div>
           </th>
         </tr>
-        <tr>
-          <th colspan='3'>
-            <div class="row">
-            <% @institution.reviews.each do |review| %>
-              <% if review.food_image.attached? %>
-                <div class="col-md-4">
-                <%= link_to institution_review_path(@institution,review.id) do %>
-                  <%= image_tag review.food_image,width:"100%" %><br>
-                    <%= review.food_name %>
-                <% end %>
-                </div>
-              <% end %>
+        <% @institution.reviews.each do |review| %>
+          <tr>
+            <th>
+              <%= link_to admin_user_path(review.user.id) do %>
+                <%= image_tag review.user.get_profile_image(30,30), class: "rounded-circle" %>
+                  <% end %>
+                    <%= review.user.nickname %>
+                      <%= review.created_at.strftime('%m/%d %H:%M') %>
+                        </br>
+                        <h4>
+                          <%= link_to admin_review_path(review.id) do %>
+                            <%= review.title %>
+                              <% end %>
+                        </h4>
+            </th>
+            <th><span id="star-rate-<%= review.id %>"></span>
+              <script>
+                var elm = document.getElementById("star-rate-<%= review.id %>")
+                $("#star-rate-<%= review.id %>").empty();
+                var opt = {
+                  size: 36,
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  half: true,   
+                  readOnly: true,   
+                  score: <%= review.star %>,   
+                }
+                 raty(elm, opt);
+              </script>
+              <%= review.star %></br>
+              
+              <%= review.likes.count %>いいね
+              <%= review.comments.count %>コメント
+            </th>
             <% end %>
-            </div>
-       　</th>
-        </tr>
-             <table>
+              <table>
           <tr>
             <td>
               
@@ -114,7 +115,7 @@
                   <% end %>
                 <% else %>
                   <div class="col-md-4">
-                    <%= image_tag 'no.images', size: "200x200" %>
+                    <%= image_tag 'no_image', size: "200x200" %>
                   </div>
                 <% end %>
               </div>

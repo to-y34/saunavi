@@ -1,4 +1,6 @@
 class Public::ReviewsController < ApplicationController
+   before_action :authenticate_user!, except: [:show]
+  
   def new
     @review = Review.new
     @institution = Institution.find(params[:institution_id])
@@ -9,8 +11,12 @@ class Public::ReviewsController < ApplicationController
     @review= Review.new(review_params)
     @review.institution = @institution
     @review.user = current_user
-    @review.save!
-    redirect_to institution_review_path(@institution,@review)
+    if @review.save
+      flash[:notice] = "レビューを投稿しました"
+      redirect_to institution_review_path(@institution,@review)
+    else
+      render :new
+    end  
   end
 
   def show
@@ -19,18 +25,14 @@ class Public::ReviewsController < ApplicationController
     @comment = Comment.new
   end
   
-  def edit
-  end 
-  
-  def update
-  end
-    
+ 
   
   def destroy
     @institution = Institution.find(params[:institution_id])
     @review = Review.find(params[:id])
     @review.destroy
-    redirect_to institutions_path(@institution)
+    flash[:notice] = "レビューを削除しました"
+    redirect_to institution_path(@institution)
   end
   
   private
