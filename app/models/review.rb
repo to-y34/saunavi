@@ -8,6 +8,8 @@ class Review < ApplicationRecord
     has_one_attached :food_image
     has_one_attached :trip_image
     
+    validates :title, presence: true
+    validates :star, presence: true
     
     def liked?(user)
      likes.where(user_id: user.id).exists?

@@ -1,5 +1,14 @@
   ja:
     activerecord:
+      attributes:
+       institution:
+        name: "施設名"
+        address: "住所"
+        area: "都道府県"
+        price: "金額"
+       review:
+        title: "タイトル"
+        star: "星評価"
       errors:
         messages:
           record_invalid: "バリデーションエラー: %{errors}"

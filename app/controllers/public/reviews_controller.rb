@@ -12,10 +12,10 @@ class Public::ReviewsController < ApplicationController
     @review.institution = @institution
     @review.user = current_user
     if @review.save
-      flash[:notice] = "レビューを投稿しました"
-      redirect_to institution_review_path(@institution,@review)
+     flash[:notice] = "レビューを投稿しました"
+     redirect_to institution_review_path(@institution,@review)
     else
-      render :new
+     render :new
     end  
   end
 

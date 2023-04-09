@@ -16,7 +16,7 @@
    
 </div>
 </div>
-<div class="col-md-5">
+<div class="col-md-3">
 <div class="area_search">
   <%= form_with url: area_path, method: :get, local: true do |f| %>
   <div class="input-group mb-3">
@@ -28,6 +28,15 @@
   <% end %>
 </div>
 </div>
+
+<div class="col-md-5">
+  並び替え|
+  <%= link_to '評価の高い順', institutions_path(star_count: "true") %>|
+  <%= link_to 'レビュー順', institutions_path(review: "true") %>|
+  <%= link_to 'お気に入り順', institutions_path(bookmark: "true") %>
+</div>
+
+
       
       <div class="col-md-11">
         <h2>サウナ一覧</h2>
@@ -35,8 +44,9 @@
             <thead class="thead-light">
                 <th></th>
                 <th>サウナ名</th>
+                <th>評価</th>
                 <th>エリア</th>
-                <th clospan="3"></th>
+                
             </thead>
             <% @institutions.each do |institution| %>
           <tbody>
@@ -53,6 +63,8 @@
             <%= link_to institution_path(institution.id) do %>
               <%= institution.name %>
                 <% end %>
+                </td>
+                <td>
                 <h3><span id="star-rate-<%= institution.id %>"></span>
               <script>
                 var elm = document.getElementById("star-rate-<%= institution.id %>")
@@ -75,11 +87,16 @@
             
               </td>    
                   <td>
-                    <%= Institution.areas_i18n[institution.area] %>
+                    <%= link_to area_path(area: Institution.areas[institution.area]) do %>
+                     <%= Institution.areas_i18n[institution.area] %>
+                     
+                    <% end %>
                   </td>
                   <% end %>
+                  
           </tbody>          
         </table>
+        
       </div>
   </div>
 </div>

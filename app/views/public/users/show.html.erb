@@ -3,18 +3,18 @@
   <%= flash[:notice] %>
   </div>
   <div class="row pt-5">
-    <div class="col-md-4 offset-md-1">
+    <div class="col-md-4">
       <h1><%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
       
       <%= @user.nickname %>
       (<%= @user.age %>)</h1>
       </div>
       
-      
-      <div class="col-md-2">
+     
+      <div class="col-md-4">
       <%= @user.introduction %>
      </div>
-     <div class="col-md-1 offset-md-1">
+     <div class="col-md-2 offset-md-1">
        <% if user_signed_in? %>
        <% if @user.id == current_user.id %>
       <%= link_to edit_user_path(@user.id), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-user-cog"></i>
@@ -24,8 +24,8 @@
      </div>
     </div>
   </div>
-  <div class="row pt-2">
-    <div class="col-md-5 offset-md-3">
+  <div class="row pt-5">
+    <div class="col-md-4 offset-md-1">
       <table class="table">
         <tr>
           <th>
@@ -33,20 +33,36 @@
              <i class="far fa-bookmark"></i>お気に入り一覧
              </h3>
           </th>
+          <th><h5>
+              <%= @user.bookmarks.count %>件のお気に入り
+            </h5></th>
+          
         </tr>
         <tr>
-          <th>
+         
            <% @bookmarks.each do |bookmark| %>
+           <th>
            <%= link_to institution_path(bookmark.institution) do %>
-             <%= bookmark.institution.name %>
+           
+             <%= link_to institution_path(bookmark.institution.id) do %>
+                  <% if bookmark.institution.images.attached? %>
+                   <%= image_tag bookmark.institution.images.first, size: "60x60" %>
+                  <% else %>
+                   <%= image_tag 'no.images', size: "60x60" %>
+                  <% end %>   
+                  <% end %>
            <% end %>
+           </th>
+          <th><%= link_to institution_path(bookmark.institution) do %>
+               <%= bookmark.institution.name %>
+               <% end %></th>
           
+          </tr>
            <% end %>
-          </th> 
-        </tr>
+        
       </table>      
     </div>
-    <div class="col-md-5 offset-md-3">
+    <div class="col-md-4 offset-md-1">
       <table class="table">
         <tr>
           <th>
@@ -54,7 +70,6 @@
             </h3></th>
           <th>
             <h5>
-              
               <%= @user.reviews.count %>件のレビュー
             </h5></th>
         </tr>

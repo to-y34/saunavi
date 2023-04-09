@@ -5,18 +5,19 @@
 <div class="col-md-11">
         <h2>サウナ一覧</h2>
         <table class="table">
-            <thead>
+            <thead class="thead-light">
                 <th></th>
                 <th>サウナ名</th>
+                <th>評価</th>
                 <th>エリア</th>
-                <th clospan="3"></th>
+                
             </thead>
             <% @institutions.each do |institution| %>
           <tbody>
               <td>
                   <%= link_to institution_path(institution.id) do %>
                   <% if institution.images.attached? %>
-                   <%= image_tag institution.image, size: "120x120" %>
+                   <%= image_tag institution.images.first, size: "120x120" %>
                    <% else %>
                     <%= image_tag 'no.images', size: "120x120" %>
                    <% end %>   
@@ -26,6 +27,8 @@
             <%= link_to institution_path(institution.id) do %>
               <%= institution.name %>
                 <% end %>
+                </td>
+                <td>
                 <h3><span id="star-rate-<%= institution.id %>"></span>
               <script>
                 var elm = document.getElementById("star-rate-<%= institution.id %>")

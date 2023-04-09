@@ -13,19 +13,23 @@ class Public::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:notice] = "プロフィールを編集しました"
-      redirect_to user_path(@user.id)
+     flash[:notice] = "プロフィールを編集しました"
+     redirect_to user_path(@user.id)
     else
-      render :edit
+     render :edit
     end  
   end  
     
 
   def close
-    @user = current_user
-    @user.update(is_deleted: true)
-    sign_out
-    redirect_to root_path
+    if current_user.email == 'guest@example.com'
+      redirect_to root_path, alert: 'ゲストユーザーの削除はできません。'
+    else
+      @user = current_user
+      @user.update(is_deleted: true)
+      sign_out
+      redirect_to root_path
+    end  
   end
 
   

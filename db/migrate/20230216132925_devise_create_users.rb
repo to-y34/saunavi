@@ -9,7 +9,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.string :nickname,           null: false
       t.integer :age,               null: false
       t.integer :sex,               null: false
-      t.string :introduction,       null: false
+      t.string :introduction
       t.boolean :is_deleted,        null: false, default: false
 
       ## Recoverable

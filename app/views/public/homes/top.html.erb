@@ -1,16 +1,173 @@
-<h1></h1>
-<h1>さうなびHOME</h1>
-<div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;">▼ クリックで展開</a>
-</div>
-<!--// 折り畳み展開ポインタ -->
-
-<!-- 折り畳まれ部分 -->
-<div id="open" style="display:none;clear:both;">
-aa
-<!--ここの部分が折りたたまれる＆展開される部分になります。
-自由に記述してください。-->
-
-</div>
-<!--// 折り畳まれ部分 -->
-
+  <div>
+  <%= flash[:notice] %>
+  <%= flash[:alert] %>
+  </div>
+  <div class="row pt-4">
+    <div class="col-1"></div>
+    <div class="col-7">
+      <div>
+        <h2>キーワードから探す</h2>
+        <div class="post_search">
+         <%= form_with url: search_path, method: :get, local: true do |f| %>
+          <div class="input-group mb-3">
+            <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索（住所からでも検索できます）"  %>
+            <div class="input-group-append">
+              <%= f.submit "検索", class: 'btn btn-outline-secondary' %>
+            </div>
+          </div>
+         <% end %>
+        </div>
+      </div>
+      <div>
+        <div class="d-flex pt-4">
+          <h2>エリアから探す</h2>
+          <div class="ml-4 area_search">
+            <%= form_with url: area_path, method: :get, local: true do |f| %>
+              <div class="input-group mb-3">
+                <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  } %>
+                <div class="input-group-append">
+                   <%= f.submit "エリア検索", class: 'btn btn-outline-secondary' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="col-md-3 offset-1">
+              <%= link_to area_path(area: 0) do %>
+              <%= image_tag 'hokkaido', size: "90x60" %>
+                    北海道
+                   <% end %> 
+           </div>
+           <div class="col-md-3">
+             <%= link_to area_path(area: 12) do %>
+              <%= image_tag 'tokyo', size: "90x60" %>
+                    東京
+                    <% end %> 
+           </div>
+           <div class="col-md-3">
+             <%= link_to area_path(area: 13) do %>
+              <%= image_tag 'yokohama', size: "90x60" %>
+                    神奈川
+                    <% end %> 
+           </div>
+        </div>
+        <div class="row pt-4">
+         <div class="col-md-3 offset-1">
+           <%= link_to area_path(area: 22) do %>
+            <%= image_tag 'nagoya', size: "90x60" %>
+                  愛知
+                  <% end %> 
+         </div>
+         <div class="col-md-3">
+           <%= link_to area_path(area: 26) do %>
+            <%= image_tag 'osaka', size: "90x60" %>
+                  大阪
+                  <% end %> 
+         </div>
+         <div class="col-md-3">
+           <%= link_to area_path(area: 39) do %>
+            <%= image_tag 'hukuoka', size: "90x60" %>
+                  福岡
+                  <% end %> 
+         </div>
+        </div>
+      </div>
+      <div class="pt-4">
+        <h2>人気のサウナ3選</h2>
+        <div class="row pt-4 offset-1">
+          <% @institutions.each do |institution| %>
+          <div class="col-md-3">
+            <%= link_to institution_path(institution.id) do %>
+                        <% if institution.images.attached? %>
+                         <%= image_tag institution.images.first, size: "90x60" %>
+                        <% else %>
+                         <%= image_tag 'no.images', size: "90x60" %>
+                        <% end %>   
+                        <% end %> <br>
+                        <%= link_to institution_path(institution.id) do %>
+                    <%= institution.name %>
+                      <% end %><br>
+                       <%= Institution.areas_i18n[institution.area] %><br>
+                       <span id="star-rate-<%= institution.id %>"></span>
+                    <script>
+                      var elm = document.getElementById("star-rate-<%= institution.id %>")
+                      $("#star-rate-<%= institution.id %>").empty();
+                      var opt = {
+                        size: 36,
+                        starOff: "<%= asset_path('star-off.png') %>",
+                        starOn: "<%= asset_path('star-on.png') %>",
+                        starHalf: "<%= asset_path('star-half.png') %>",
+                        half: true,   
+                        readOnly: true,   
+                        score: <%= institution.reviews.average(:star).to_f.round(1) %>   
+                      }
+                       raty(elm, opt);
+                    </script>
+                    <%= institution.reviews.average(:star).to_f.round(1) %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="pt-4">
+        <h2>新着レビュー</h2>
+        <div>
+          <table class="table">
+              <% @review_3.each do |review| %>
+              <tr>
+                <th>
+                  <%= link_to user_path(review.user.id) do %>
+                    <%= image_tag review.user.get_profile_image(30,30), class: "rounded-circle" %>
+                      <% end %>
+                        <%= review.user.nickname %>
+                          <%= review.created_at.strftime('%m/%d %H:%M') %></br>
+                           <%= review.institution.name %>
+                            </br>
+                            <h4>
+                              <%= link_to institution_review_path(review.institution_id,review.id) do %>
+                                <%= review.title %>
+                                  <% end %>
+                            </h4>
+                </th>
+                <th><span id="star-rate-<%= review.id %>"></span>
+                  <script>
+                    var elm = document.getElementById("star-rate-<%= review.id %>")
+                    $("#star-rate-<%= review.id %>").empty();
+                    var opt = {
+                      size: 36,
+                      starOff: "<%= asset_path('star-off.png') %>",
+                      starOn: "<%= asset_path('star-on.png') %>",
+                      starHalf: "<%= asset_path('star-half.png') %>",
+                      half: true,   
+                      readOnly: true,   
+                      score: <%= review.star %>,   
+                    }
+                     raty(elm, opt);
+                  </script>
+                  <%= review.star %></br>
+                  
+                  <%= review.likes.count %>いいね
+                  <%= review.comments.count %>コメント
+                </th>
+                <% end %>
+              </tr>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="border rounded p-4 mt-4 mr-4">
+        <div class="m-4">
+          <h3 class="ml-3"><span style="background-color:#eeeeee">さうなびの使い方  </span></h3>
+          さうなびでは、施設ごとのサ活、サ食、サ旅を見ることができます。<br>
+          エリア、キーワードで気になるサウナを探し、サウナレビュー見ましょう。<br>
+          サウナレビューを投稿するには、会員登録が必要です。<br>
+          まずは会員登録をして、自分のサ活を投稿してみましょう。
+          <div class="m-1">
+            <%= link_to "ログイン", user_session_path, class: "btn btn-success ml-5" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-danger ml-5" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,17 +1,49 @@
-<%= link_to '施設新規登録', new_institution_path, class: 'btn btn-success px-4' %>
 <div class="container">
-  <div class="row">
+  <div>
+  <%= flash[:notice] %>
+  </div>
+  <div class="row pt-4">
+   <div class="col-md-3 offset-md-1">
+   <div class="post_search">
+  <%= form_with url: search_path, method: :get, local: true do |f| %>
+    <div class="input-group mb-3">
+      <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+      <div class="input-group-append">
+        <%= f.submit "検索", class: 'btn btn-outline-secondary' %>
+      </div>
+    </div>
+  <% end %>
    
-   
-      
-      <div class="col-md-8 offset-md-1">
+</div>
+</div>
+<div class="col-md-3">
+<div class="area_search">
+  <%= form_with url: area_path, method: :get, local: true do |f| %>
+  <div class="input-group mb-3">
+  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  } %>
+  <div class="input-group-append">
+  <%= f.submit "エリア検索", class: 'btn btn-outline-secondary' %>
+  </div>
+  </div>
+  <% end %>
+</div>
+</div>
+
+<div class="col-md-5">
+  並び替え|
+  <%= link_to '評価の高い順', area_path(star_count: "true",area: params[:area]) %>|
+  <%= link_to 'レビュー順', area_path(review: "true",area: params[:area]) %>|
+  <%= link_to 'お気に入り順', area_path(bookmark: "true",area: params[:area]) %>
+</div>
+      <div class="col-md-11">
         <h2>サウナ一覧</h2>
         <table class="table">
-            <thead>
+            <thead class="thead-light">
                 <th></th>
-                <th>施設名</th>
+                <th>サウナ名</th>
+                <th>評価</th>
                 <th>エリア</th>
-                <th clospan="3"></th>
+                
             </thead>
             <% @institutions.each do |institution| %>
           <tbody>
@@ -28,13 +60,34 @@
             <%= link_to institution_path(institution.id) do %>
               <%= institution.name %>
                 <% end %>
-              </td>    
+              </td> 
+              <td><h3><span id="star-rate-<%= institution.id %>"></span>
+              <script>
+                var elm = document.getElementById("star-rate-<%= institution.id %>")
+                $("#star-rate-<%= institution.id %>").empty();
+                var opt = {
+                  size: 36,
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  half: true,   
+                  readOnly: true,   
+                  score: <%= institution.reviews.average(:star).to_f.round(1) %>   
+                }
+                 raty(elm, opt);
+              </script>
+              <%= institution.reviews.average(:star).to_f.round(1) %>
+            </h3>
+            <i class="far fa-comment"></i><%= institution.reviews.count %>人　
+            <i class="far fa-bookmark"></i><%= institution.bookmarks.count %>人
+            </td>
                   <td>
                     <%= Institution.areas_i18n[institution.area] %>
                   </td>
                   <% end %>
           </tbody>          
         </table>
+         
       </div>
   </div>
 </div>

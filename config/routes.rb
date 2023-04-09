@@ -26,7 +26,7 @@ devise_for :users,skip: [:passwords], controllers: {
      get "food" => "institutions#food"
      get "trip" => "institutions#trip"
     end
-    
+      
     
     
     get "search" => "institutions#search"

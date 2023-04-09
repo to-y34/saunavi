@@ -17,11 +17,33 @@ class Public::InstitutionsController < ApplicationController
   end  
 
   def index
-    @institutions = Institution.all
+    if params[:review]
+     @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc')
+    elsif params[:bookmark]
+    #  @institutions = Institution.find(Bookmark.group(:institution_id).order('count(institution_id) desc').pluck(:institution_id))
+     @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc')
+    elsif params[:star_count]
+    #  @institutions = Institution.find(Review.group(:institution_id).order('avg(star) desc').pluck(:institution_id))
+     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc')
+    else
+     @institutions = Institution.page(params[:page])
+    end 
   end
   
   def area
-    @institutions = Institution.where(area: params[:area])
+   if params[:review]
+      @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc')
+   elsif params[:bookmark]
+      @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc')
+   elsif params[:star_count]
+    #   @institutions = Institution.find(Review.group(:star).order('avg(star) desc').pluck(:institution_id))
+     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc')
+   else
+      @institutions = Institution.all
+   end  
+   if params[:area]
+     @institutions = @institutions.where(area: params[:area])
+   end 
   end  
   
   def search
@@ -29,7 +51,6 @@ class Public::InstitutionsController < ApplicationController
   @institutions = if params[:search].present?
              Institution.where(['name LIKE ? OR address LIKE ?',
                         "%#{params[:search]}%", "%#{params[:search]}%"])
-                 
   else
    Institution.none
   end
@@ -60,10 +81,10 @@ class Public::InstitutionsController < ApplicationController
   def update
     @institution = Institution.find(params[:id])
     if @institution.update(institution_params)
-      flash[:notice] = "施設情報を編集しました"
-    　redirect_to institution_path(@institution.id)
+     flash[:notice] = "施設情報を編集しました"
+     redirect_to institution_path(@institution.id)
     else
-      render :edit
+     render :edit
     end  
   end
   

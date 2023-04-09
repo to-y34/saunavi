@@ -1,55 +1,23 @@
-<%= form_with model: [@institution,@review] do |f| %>
-
-<table>
-    <tr>
-      <td>
- <div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;">➕サ飯レビューの追加</a>
-</div>
-<!--// 折り畳み展開ポインタ -->
-
-<!-- 折り畳まれ部分 -->
-<div id="open" style="display:none;clear:both;">
-サウナ飯名<%= f.text_field :food_name %></br>
-<%= f.file_field :food_image %>
-サウナ飯住所<%= f.text_field :food_address %></br>
-サウナ飯コメント<%= f.text_field :food_comment %></br>
-</div>
-uuuu</br>
-uuuu
-
-<div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;">➕サ旅レビューの追加</a>
-</div>
-<!--// 折り畳み展開ポインタ -->
-
-<!-- 折り畳まれ部分 -->
-<div id="open" style="display:none;clear:both;">
-サウナ観光地名<%= f.text_field :trip_name %></br>
-<%= f.file_field :trip_image %>
-サウナ観光地住所<%= f.text_field :trip_address %></br>
-サウナ観光地コメント<%= f.text_field :trip_comment %></br>
-</div>
-
-<% end %>
-</td>
-  </tr>
-  </table>
-
-
-
-
 <div class="container">
   <div class="row pt-5">
     <div class="col-xl-9 ml-auto">
+      <% if @review.errors.any? %>
+  <%= @review.errors.count %>件のエラーが発生しました
+  <ul>
+    <% @review.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
       <%= form_with model: [@institution,@review] do |f| %>
         <h4>サウナレビュー</h4>
          <table>
            <tr>
              <td>
+               <%= f.label :star, "星評価" %>
+             </td>
+             <td>
         <div class="field" id="star">
-
-          <%= f.label :star, "星評価：" %>
             <%= f.hidden_field :star, id: :review_star %>
               <script>
                 var elm = document.getElementById("star")
@@ -63,13 +31,14 @@ uuuu
                 }
                 raty(elm, opt);
               </script>
+              
         </div>
         </td>
         </tr>
           <tr>
-            <td>タイトル</td>
+            <td>タイトル※必須</td>
             <td>
-              <%= f.text_field :title %>
+              <%= f.text_field :title,:size=>"30" %>
             </td>
           </tr>
           <tr>
@@ -81,11 +50,11 @@ uuuu
           <tr>
             <td>レビュー内容</td>
             <td>
-              <%= f.text_area :content %>
+              <%= f.text_area :content,:size=>"30" %>
             </td>
           </tr>
           <tr>
-            <td>訪問日</td>
+            <td>訪問日※必須</td>
             <td>
               <%= f.date_field :date %>
             </td>
@@ -112,7 +81,7 @@ uuuu
           <!-- 折り畳まれ部分 -->
           <tr class="open2">
             <td>サウナ飯名</td>
-            <td><%= f.text_field :food_name %></td>
+            <td><%= f.text_field :food_name,:size=>"30" %></td>
           </tr>
           <tr class="open2">
             <td></td>
@@ -120,11 +89,11 @@ uuuu
           </tr>
           <tr class="open2">
             <td>サウナ飯住所</td>
-            <td><%= f.text_field :food_address %></td>
+            <td><%= f.text_field :food_address,:size=>"30" %></td>
           </tr>
           <tr class="open2">
             <td>サウナ飯コメント</td>
-            <td><%= f.text_field :food_comment %></td>
+            <td><%= f.text_field :food_comment,:size=>"30" %></td>
           </tr>
           <style>
             tr.open1 {
@@ -140,7 +109,7 @@ uuuu
           <!-- 折り畳まれ部分 -->
           <tr class="open1">
             <td>サウナ旅先名</td>
-            <td><%= f.text_field :trip_name %></td>
+            <td><%= f.text_field :trip_name,:size=>"30" %></td>
           </tr>
           <tr class="open1">
             <td>サウナ旅画像</td>
@@ -148,16 +117,17 @@ uuuu
           </tr>
           <tr class="open1">
             <td>サウナ旅住所</td>
-            <td><%= f.text_field :trip_address %></td>
+            <td><%= f.text_field :trip_address,:size=>"30" %></td>
           </tr>
           <tr class="open1">
             <td>サウナ旅コメント</td>
-            <td><%= f.text_field :trip_comment %></td>
+            <td><%= f.text_field :trip_comment,:size=>"30" %></td>
           </tr>
           
         </table>
         <%= f.submit 'レビュー投稿', class: 'btn btn-success px-4' %>
           <% end %>
-    </div>
+    
   </div>
-</div>
+  </div>
+  </div>
