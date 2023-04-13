@@ -1,61 +1,59 @@
 <div class="container">
-
-<div class="row pt-5">
-    <h2><%= @section_title %></h2>
-<div class="col-md-11">
-        <h2>サウナ一覧</h2>
-        <table class="table">
-            <thead class="thead-light">
-                <th></th>
-                <th>サウナ名</th>
-                <th>評価</th>
-                <th>エリア</th>
-                
-            </thead>
-            <% @institutions.each do |institution| %>
+  <div class="row pt-5">
+    <h2>
+      <%= @section_title %>
+    </h2>
+    <div class="col-md-11">
+      <h2>サウナ一覧</h2>
+      <table class="table">
+        <thead class="thead-light">
+          <th></th>
+          <th>サウナ名</th>
+          <th>評価</th>
+          <th>エリア</th>
+        </thead>
+        <% @institutions.each do |institution| %>
           <tbody>
-              <td>
-                  <%= link_to institution_path(institution.id) do %>
-                  <% if institution.images.attached? %>
-                   <%= image_tag institution.images.first, size: "120x120" %>
-                   <% else %>
-                    <%= image_tag 'no.images', size: "120x120" %>
-                   <% end %>   
-                    <% end %>
-              </td>
-              <td>
-            <%= link_to institution_path(institution.id) do %>
-              <%= institution.name %>
-                <% end %>
-                </td>
-                <td>
-                <h3><span id="star-rate-<%= institution.id %>"></span>
-              <script>
-                var elm = document.getElementById("star-rate-<%= institution.id %>")
-                $("#star-rate-<%= institution.id %>").empty();
-                var opt = {
-                  size: 36,
-                  starOff: "<%= asset_path('star-off.png') %>",
-                  starOn: "<%= asset_path('star-on.png') %>",
-                  starHalf: "<%= asset_path('star-half.png') %>",
-                  half: true,   
-                  readOnly: true,   
-                  score: <%= institution.reviews.average(:star).to_f.round(1) %>   
-                }
-                 raty(elm, opt);
-              </script>
-              <%= institution.reviews.average(:star).to_f.round(1) %>
-            </h3>
-            <i class="far fa-comment"></i><%= institution.reviews.count %>人　
-            <i class="far fa-bookmark"></i><%= institution.bookmarks.count %>人
-            
-              </td>    
-                  <td>
-                    <%= Institution.areas_i18n[institution.area] %>
-                  </td>
+            <td>
+              <%= link_to institution_path(institution.id) do %>
+                <% if institution.images.attached? %>
+                  <%= image_tag institution.images.first, size: "120x120" %>
+                    <% else %>
+                      <%= image_tag 'no.images', size: "120x120" %>
+                        <% end %>
+                          <% end %>
+            </td>
+            <td>
+              <%= link_to institution_path(institution.id) do %>
+                <%= institution.name %>
                   <% end %>
-          </tbody>          
-        </table>
-        </div>
-        </div>
-      </div>
+            </td>
+            <td>
+              <h3><span id="star-rate-<%= institution.id %>"></span>
+                <script>
+                  var elm = document.getElementById("star-rate-<%= institution.id %>")
+                  $("#star-rate-<%= institution.id %>").empty();
+                  var opt = {
+                    size: 36,
+                    starOff: "<%= asset_path('star-off.png') %>",
+                    starOn: "<%= asset_path('star-on.png') %>",
+                    starHalf: "<%= asset_path('star-half.png') %>",
+                    half: true,   
+                    readOnly: true,   
+                    score: <%= institution.reviews.average(:star).to_f.round(1) %>   
+                  }
+                   raty(elm, opt);
+                </script>
+                <%= institution.reviews.average(:star).to_f.round(1) %>
+              </h3> <i class="far fa-comment"></i>
+              <%= institution.reviews.count %>人　 <i class="far fa-bookmark"></i>
+                <%= institution.bookmarks.count %>人 </td>
+            <td>
+              <%= Institution.areas_i18n[institution.area] %>
+            </td>
+            <% end %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>

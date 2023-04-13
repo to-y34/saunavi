@@ -1,133 +1,158 @@
 <div class="container">
-  <div class="row pt-5">
-    <div class="col-xl-9 ml-auto">
+  <div class="row mt-5 mb-5">
+    <div class="offset-sm-2 col-sm-8 mb-5">
       <% if @review.errors.any? %>
-  <%= @review.errors.count %>件のエラーが発生しました
-  <ul>
-    <% @review.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-  </ul>
-<% end %>
-      <%= form_with model: [@institution,@review] do |f| %>
-        <h4>サウナレビュー</h4>
-         <table>
-           <tr>
-             <td>
-               <%= f.label :star, "星評価" %>
-             </td>
-             <td>
-        <div class="field" id="star">
-            <%= f.hidden_field :star, id: :review_star %>
-              <script>
-                var elm = document.getElementById("star")
-                var opt = {
-                  size     : 36,
-                  starOff:  '<%= asset_path('star-off.png') %>',
-                  starOn : '<%= asset_path('star-on.png') %>',
-                  starHalf: '<%= asset_path('star-half.png') %>',
-                  scoreName: 'review[star]',
-                  half: true,
-                }
-                raty(elm, opt);
-              </script>
-              
-        </div>
-        </td>
-        </tr>
-          <tr>
-            <td>タイトル※必須</td>
-            <td>
-              <%= f.text_field :title,:size=>"30" %>
-            </td>
-          </tr>
-          <tr>
-            <td>画像</td>
-            <td>
-              <%= f.file_field :image %>
-            </td>
-          </tr>
-          <tr>
-            <td>レビュー内容</td>
-            <td>
-              <%= f.text_area :content,:size=>"30" %>
-            </td>
-          </tr>
-          <tr>
-            <td>訪問日※必須</td>
-            <td>
-              <%= f.date_field :date %>
-            </td>
-          </tr>
-          
-          <style>
-            tr.open2 {
-              display: none;
-            }
-          </style>
-          <script>
-            function toggleRows(class_name) {
-              let rows = Array.from(document.querySelectorAll('.' + class_name))
-              rows.forEach(row => {
-                row.style.display = (row.style.display == 'none') ? 'table-row' : 'none'
-              })
-            }
-          </script>
-          <tr onclick="toggleRows('open2')">
-            <td><a style="cursor:pointer;">➕サ飯レビューの追加</a></td>
-          </tr>
-          <!--// 折り畳み展開ポインタ -->
-
-          <!-- 折り畳まれ部分 -->
-          <tr class="open2">
-            <td>サウナ飯名</td>
-            <td><%= f.text_field :food_name,:size=>"30" %></td>
-          </tr>
-          <tr class="open2">
-            <td></td>
-            <td><%= f.file_field :food_image %></td>
-          </tr>
-          <tr class="open2">
-            <td>サウナ飯住所</td>
-            <td><%= f.text_field :food_address,:size=>"30" %></td>
-          </tr>
-          <tr class="open2">
-            <td>サウナ飯コメント</td>
-            <td><%= f.text_field :food_comment,:size=>"30" %></td>
-          </tr>
-          <style>
-            tr.open1 {
-              display: none;
-            }
-          </style>
-         
-          <tr onclick="toggleRows('open1')">
-            <td><a style="cursor:pointer;">➕サ旅レビューの追加</a></td>
-          </tr>
-          <!--// 折り畳み展開ポインタ -->
-
-          <!-- 折り畳まれ部分 -->
-          <tr class="open1">
-            <td>サウナ旅先名</td>
-            <td><%= f.text_field :trip_name,:size=>"30" %></td>
-          </tr>
-          <tr class="open1">
-            <td>サウナ旅画像</td>
-            <td><%= f.file_field :trip_image %></td>
-          </tr>
-          <tr class="open1">
-            <td>サウナ旅住所</td>
-            <td><%= f.text_field :trip_address,:size=>"30" %></td>
-          </tr>
-          <tr class="open1">
-            <td>サウナ旅コメント</td>
-            <td><%= f.text_field :trip_comment,:size=>"30" %></td>
-          </tr>
-          
-        </table>
-        <%= f.submit 'レビュー投稿', class: 'btn btn-success px-4' %>
+        <%= @review.errors.count %>件のエラーが発生しました
+          <ul>
+            <% @review.errors.full_messages.each do |message| %>
+              <li>
+                <%= message %>
+              </li>
+              <% end %>
+          </ul>
           <% end %>
-    
-  </div>
-  </div>
+            <h4>サウナレビュー</h4>
+            <%= form_with model: [@institution,@review] do |f| %>
+              <div class="form-group row">
+                <%= f.label :star, "星評価", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <div class="field" id="star">
+                      <%= f.hidden_field :star, id: :review_star %>
+                        <script>
+                          var elm = document.getElementById("star")
+                          var opt = {
+                            size     : 36,
+                            starOff:  '<%= asset_path('star-off.png') %>',
+                            starOn : '<%= asset_path('star-on.png') %>',
+                            starHalf: '<%= asset_path('star-half.png') %>',
+                            scoreName: 'review[star]',
+                            half: true,
+                          }
+                          raty(elm, opt);
+                        </script>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :title, 'タイトル　　※必須', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :title, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :image, '画像', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.file_field :image %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :content, 'レビュー内容', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_area :content, placeholder: "タイトルのみでも投稿いただけます", class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :date, '訪問日', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.date_field :date %>
+                  </div>
+              </div>
+              <style>
+                div.open2 {
+                  display: none;
+                }
+              </style>
+              <script>
+                function toggleRows(class_name) {
+                  let rows = Array.from(document.querySelectorAll('.' + class_name))
+                  rows.forEach(row => {
+                    row.style.display = (row.style.display == 'none') ? 'table-row' : 'none'
+                  })
+                }
+              </script>
+              <div onclick="toggleRows('open2')">
+                <div><a style="cursor:pointer;">➕サ飯レビューの追加</a></div>
+              </div>
+              <!--// 折り畳み展開ポインタ -->
+              <!-- 折り畳まれ部分 -->
+              <div class="open2">
+                <div class="form-group row">
+                  <%= f.label :food_name, 'サ食名', class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :food_name, class: "form-control" %>
+                    </div>
+                </div>
+              </div>
+              <div class="open2">
+                <div class="form-group row">
+                  <%= f.label :food_image, 'サ食画像', class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.file_field :food_image %>
+                    </div>
+                </div>
+              </div>
+              <div class="open2">
+                <div class="form-group row">
+                  <%= f.label :food_address, 'サ食住所', class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :food_address, class: "form-control" %>
+                    </div>
+                </div>
+              </div>
+              <div class="open2">
+                <div class="form-group row">
+                  <%= f.label :food_comment, 'サ食コメント', class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :food_comment, class: "form-control" %>
+                    </div>
+                </div>
+              </div>
+              <style>
+                div.open1 {
+                  display: none;
+                }
+              </style>
+              <div onclick="toggleRows('open1')">
+                <div><a style="cursor:pointer;">➕サ旅レビューの追加</a></div>
+              </div>
+              <!--// 折り畳み展開ポインタ -->
+              <!-- 折り畳まれ部分 -->
+              <div class="open1">
+                <div class="form-group row">
+                  <%= f.label :trip_name, 'サ旅名', class: "col-sm-3 col-form-label" %>
+                    <div class="col-sm-9">
+                      <%= f.text_field :trip_name, class: "form-control" %>
+                    </div>
+                </div>
+              </div>  
+                <div class="open1">
+                  <div class="form-group row">
+                    <%= f.label :trip_image, 'サ旅画像', class: "col-sm-3 col-form-label" %>
+                      <div class="col-sm-9">
+                        <%= f.file_field :trip_image %>
+                      </div>
+                  </div>
+                </div>  
+                  <div class="open1">
+                    <div class="form-group row">
+                      <%= f.label :trip_address, 'サ旅住所', class: "col-sm-3 col-form-label" %>
+                        <div class="col-sm-9">
+                          <%= f.text_field :trip_address, class: "form-control" %>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="open1">
+                    <div class="form-group row">
+                      <%= f.label :trip_comment, 'サ旅コメント', class: "col-sm-3 col-form-label" %>
+                        <div class="col-sm-9">
+                          <%= f.text_field :trip_comment, class: "form-control" %>
+                        </div>
+                    </div>
+                  </div>  
+                  <div class="form-group mt-5">
+                  <%= f.submit 'レビュー投稿', class: "btn btn-success btn-block" %>
+                  </div>
+                  <% end %>
+      </div>
+    </div>
   </div>

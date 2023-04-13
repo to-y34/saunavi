@@ -1,7 +1,17 @@
 class Admin::InstitutionsController < ApplicationController
   before_action :authenticate_admin!
   def index
-    @institutions = Institution.all
+    @institutions = Institution.page(params[:page])
+  end
+  
+  def search
+  @section_title = "「#{params[:search]}」の検索結果"
+  @institutions = if params[:search].present?
+             Institution.where(['name LIKE ? OR address LIKE ?',
+                        "%#{params[:search]}%", "%#{params[:search]}%"])
+  else
+   Institution.none
+  end
   end
 
   def show

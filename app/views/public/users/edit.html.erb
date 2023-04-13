@@ -1,43 +1,57 @@
-<div class="container">
+<div class="container pb-5">
   <div class="row pt-5">
-    <div class="col-xl-9 ml-auto">
-<%= form_with model: @user, url: user_path, method: :patch do |f| %>
-<h4><span style="background-color:#eeeeee">会員情報編集</span></h4>
-<table>
-  <tr>
-  <td><%= f.label :ニックネーム %></td>
-  <td><%= f.text_field :nickname,:size=>"40" %></td>
-  </tr>
-  <tr>
-  <td><%= f.label :profile_image, '画像' %></td>
-  <td><%= f.file_field :profile_image  %></td>
-  </tr>
-  <tr>
-   <td><%= f.label :年齢 %></td>
-  <td><%= f.text_field :age,:size=>"40" %></td>
-  <tr>
-   <td><%= f.label :自己紹介 %></td>
-  <td><%= f.text_field :introduction,:size=>"40" %></td>
-  </tr>
-  
-  <tr>
-    <td><%= f.label :性別 %></td>
-  <td><%= f.radio_button :sex, User.sexes.key(0) %>
-  <%= f.label :sex, User.sexes_i18n[:man] %>
-  
-  <%= f.radio_button :sex, User.sexes.key(1) %>
-  <%= f.label :sex, User.sexes_i18n[:woman] %></td>
-  </tr>
-  
-  
- <tr>
-   <td></td>
-   <td><%= f.submit "編集内容保存", class: "btn btn-success ml-5" %>
-   <%= link_to "退会する", users_withdraw_path, class: "btn btn-danger ml-5" %></td>
- </tr>
- <% end %>
-</table>
-
+    <div class="offset-sm-3 col-sm-6 pb-5">
+      <h4 class="mb-5"><span style="background-color:#eeeeee">会員情報編集</span></h4>
+      <%= form_with model: @user, url: user_path, method: :patch do |f| %>
+        <div class="form-group row">
+          <%= f.label :nickname, 'ニックネーム', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= f.text_field :nickname, class: "form-control" %>
+            </div>
+        </div>
+        <div class="form-group row">
+          <%= f.label :profile_image, '画像', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= f.file_field :profile_image %>
+            </div>
+        </div>
+        <div class="form-group row">
+          <%= f.label :age, '年齢', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= f.text_field :age, class: "form-control" %>
+            </div>
+        </div>
+        <div class="form-group row">
+          <%= f.label :introduction, '自己紹介', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= f.text_field :introduction, class: "form-control" %>
+            </div>
+        </div>
+        <div class="form-group row">
+          <%= f.label :sex, '性別', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= f.radio_button :sex, User.sexes.key(0) %>
+                <%= f.label :sex, User.sexes_i18n[:man] %>
+                  <%= f.radio_button :sex, User.sexes.key(1) %>
+                    <%= f.label :sex, User.sexes_i18n[:woman] %>
+            </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-sm-2 col-sm-10">
+            <%= f.submit '編集内容保存', class: 'btn btn-success btn-block mt-3' %>
+          </div>
+        </div>
+        <% end %>
+          <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+              <%= link_to "退会する", users_withdraw_path, class: "btn btn-danger btn-block" %>
+            </div>
+          </div>
+    </div>
+  </div>
 </div>
- </div>
- </div>
+
+
+
+
+

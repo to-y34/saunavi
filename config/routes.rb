@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     post "public/guest_sign_in", to: "public/sessions#guest_sign_in"
   end
- 
   
-
    # 顧客用
 # URL /customers/sign_in ...
 devise_for :users,skip: [:passwords], controllers: {
@@ -27,15 +25,10 @@ devise_for :users,skip: [:passwords], controllers: {
      get "trip" => "institutions#trip"
     end
       
-    
-    
     get "search" => "institutions#search"
     get "area" => "institutions#area"
     
-    
-    
     resources :institutions, only: [:new, :edit, :index, :update, :show, :create, :destroy] do 
-     
       resources :reviews, only: [:new, :show, :create, :update, :destroy] do
         resource :likes, only: [:create, :destroy]
         resources :comments, only: [:create, :destroy] do
@@ -53,8 +46,8 @@ devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
 
 namespace :admin do
    resources :institutions, only: [:index, :show, :edit, :update , :destroy]
+   get "search" => "institutions#search"
    resources :users, only: [:index, :show, :edit, :update]
-   
    resources :reviews, only: [:index, :show, :destroy]
    resources :comments, only: [:destroy]
   end

@@ -1,103 +1,91 @@
 <div class="container">
   <div>
-  <%= flash[:notice] %>
+    <%= flash[:notice] %>
   </div>
   <div class="row pt-5">
     <div class="col-md-4">
-      <h1><%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
-      
-      <%= @user.nickname %>
-      (<%= @user.age %>)</h1>
-      </div>
-      
-     
-      <div class="col-md-4">
+      <h1>
+        <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
+          <%= @user.nickname %> (
+            <%= @user.age %>)</h1>
+    </div>
+    <div class="col-md-4">
       <%= @user.introduction %>
-     </div>
-     <div class="col-md-2 offset-md-1">
-       <% if user_signed_in? %>
-       <% if @user.id == current_user.id %>
-      <%= link_to edit_user_path(@user.id), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-user-cog"></i>
-      <% end %>
-      <% end %>
-      <% end %>
-     </div>
     </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-1">
-      <table class="table">
-        <tr>
-          <th>
-            <h3>
-             <i class="far fa-bookmark"></i>お気に入り一覧
-             </h3>
-          </th>
-          <th><h5>
-              <%= @user.bookmarks.count %>件のお気に入り
-            </h5></th>
-          
-        </tr>
-        <tr>
-         
-           <% @bookmarks.each do |bookmark| %>
-           <th>
-           <%= link_to institution_path(bookmark.institution) do %>
-           
-             <%= link_to institution_path(bookmark.institution.id) do %>
-                  <% if bookmark.institution.images.attached? %>
-                   <%= image_tag bookmark.institution.images.first, size: "60x60" %>
-                  <% else %>
-                   <%= image_tag 'no.images', size: "60x60" %>
-                  <% end %>   
-                  <% end %>
-           <% end %>
-           </th>
-          <th><%= link_to institution_path(bookmark.institution) do %>
-               <%= bookmark.institution.name %>
-               <% end %></th>
-          
-          </tr>
-           <% end %>
-        
-      </table>      
-    </div>
-    <div class="col-md-4 offset-md-1">
-      <table class="table">
-        <tr>
-          <th>
-            <h3><%= @user.nickname %>さんのレビュー
-            </h3></th>
-          <th>
-            <h5>
-              <%= @user.reviews.count %>件のレビュー
-            </h5></th>
-        </tr>
-        
-          <% @user.reviews.each do |review| %>
-          <tr>
-          <th>
-          <%= review.user.nickname %>
-                      <%= review.created_at.strftime('%m/%d %H:%M') %>
-                        </br>
-                        <h4>
-                          <%= link_to institution_review_path(review.institution_id,review.id) do %>
-                            <%= review.title %>
-                              <% end %>
-                              </h4>
-                              </th>
-                          <th><%= review.likes.count %>いいね
-              <%= review.comments.count %>コメント</th>    
+    <div class="col-md-2 offset-md-1">
+      <% if user_signed_in? %>
+        <% if @user.id == current_user.id %>
+          <%= link_to edit_user_path(@user.id), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-user-cog"></i>
             <% end %>
-
-        </tr>
-        </table>
+              <% end %>
+                <% end %>
+    </div>
   </div>
 </div>
-
-
-
-
-
-
-
+<div class="row pt-5">
+  <div class="col-md-4 offset-md-1">
+    <table class="table">
+      <tr>
+        <th>
+          <h3> <i class="far fa-bookmark"></i>お気に入り一覧 </h3>
+        </th>
+        <th>
+          <h5>
+            <%= @user.bookmarks.count %>件のお気に入り </h5>
+        </th>
+      </tr>
+      <tr>
+        <% @bookmarks.each do |bookmark| %>
+          <th>
+            <%= link_to institution_path(bookmark.institution) do %>
+              <%= link_to institution_path(bookmark.institution.id) do %>
+                <% if bookmark.institution.images.attached? %>
+                  <%= image_tag bookmark.institution.images.first, size: "60x60" %>
+                    <% else %>
+                      <%= image_tag 'no.images', size: "60x60" %>
+                        <% end %>
+                          <% end %>
+                            <% end %>
+          </th>
+          <th>
+            <%= link_to institution_path(bookmark.institution) do %>
+              <%= bookmark.institution.name %>
+                <% end %>
+          </th>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="col-md-4 offset-md-1">
+    <table class="table">
+      <tr>
+        <th>
+          <h3>
+            <%= @user.nickname %>さんのレビュー </h3>
+        </th>
+        <th>
+          <h5>
+            <%= @user.reviews.count %>件のレビュー </h5>
+        </th>
+      </tr>
+      <% @user.reviews.each do |review| %>
+        <tr>
+          <th>
+            <%= review.user.nickname %>
+              <%= review.created_at.strftime('%m/%d %H:%M') %>
+                </br>
+                <h4>
+                  <%= link_to institution_review_path(review.institution_id,review.id) do %>
+                    <%= review.title %>
+                      <% end %>
+                </h4>
+          </th>
+          <th>
+            <%= review.likes.count %>いいね
+              <%= review.comments.count %>コメント
+              <% end %>        
+          </th>
+        </tr>
+    </table>
+  </div>
+</div>

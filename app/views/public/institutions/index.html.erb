@@ -1,102 +1,91 @@
 <div class="container">
   <div>
-  <%= flash[:notice] %>
+    <%= flash[:notice] %>
   </div>
-  <div class="row pt-4">
-   <div class="col-md-3 offset-md-1">
-   <div class="post_search">
-  <%= form_with url: search_path, method: :get, local: true do |f| %>
-    <div class="input-group mb-3">
-      <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
-      <div class="input-group-append">
-        <%= f.submit "検索", class: 'btn btn-outline-secondary' %>
+  <div class="row mt-4">
+    <div class="col-md-3 offset-md-1">
+      <div class="post_search">
+        <%= form_with url: search_path, method: :get, local: true do |f| %>
+          <div class="input-group mb-3">
+            <%= f.text_field :search, class: 'form-control', placeholder: "キーワード検索"  %>
+              <div class="input-group-append">
+                <%= f.submit "検索", class: 'btn btn-outline-secondary' %>
+              </div>
+          </div>
+          <% end %>
       </div>
     </div>
-  <% end %>
-   
-</div>
-</div>
-<div class="col-md-3">
-<div class="area_search">
-  <%= form_with url: area_path, method: :get, local: true do |f| %>
-  <div class="input-group mb-3">
-  <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  } %>
-  <div class="input-group-append">
-  <%= f.submit "エリア検索", class: 'btn btn-outline-secondary' %>
-  </div>
-  </div>
-  <% end %>
-</div>
-</div>
-
-<div class="col-md-5">
-  並び替え|
-  <%= link_to '評価の高い順', institutions_path(star_count: "true") %>|
-  <%= link_to 'レビュー順', institutions_path(review: "true") %>|
-  <%= link_to 'お気に入り順', institutions_path(bookmark: "true") %>
-</div>
-
-
-      
-      <div class="col-md-11">
-        <h2>サウナ一覧</h2>
-        <table class="table">
-            <thead class="thead-light">
-                <th></th>
-                <th>サウナ名</th>
-                <th>評価</th>
-                <th>エリア</th>
-                
-            </thead>
-            <% @institutions.each do |institution| %>
-          <tbody>
-              <td>
-                  <%= link_to institution_path(institution.id) do %>
-                  <% if institution.images.attached? %>
-                   <%= image_tag institution.images.first, size: "120x120" %>
-                  <% else %>
-                   <%= image_tag 'no.images', size: "120x120" %>
-                  <% end %>   
-                  <% end %>
-              </td>
-              <td>
-            <%= link_to institution_path(institution.id) do %>
-              <%= institution.name %>
-                <% end %>
-                </td>
-                <td>
-                <h3><span id="star-rate-<%= institution.id %>"></span>
-              <script>
-                var elm = document.getElementById("star-rate-<%= institution.id %>")
-                $("#star-rate-<%= institution.id %>").empty();
-                var opt = {
-                  size: 36,
-                  starOff: "<%= asset_path('star-off.png') %>",
-                  starOn: "<%= asset_path('star-on.png') %>",
-                  starHalf: "<%= asset_path('star-half.png') %>",
-                  half: true,   
-                  readOnly: true,   
-                  score: <%= institution.reviews.average(:star).to_f.round(1) %>   
-                }
-                 raty(elm, opt);
-              </script>
-              <%= institution.reviews.average(:star).to_f.round(1) %>
-            </h3>
-            <i class="far fa-comment"></i><%= institution.reviews.count %>人　
-            <i class="far fa-bookmark"></i><%= institution.bookmarks.count %>人
-            
-              </td>    
-                  <td>
-                    <%= link_to area_path(area: Institution.areas[institution.area]) do %>
-                     <%= Institution.areas_i18n[institution.area] %>
-                     
-                    <% end %>
-                  </td>
-                  <% end %>
-                  
-          </tbody>          
-        </table>
-        
+    <div class="col-md-3">
+      <div class="area_search">
+        <%= form_with url: area_path, method: :get, local: true do |f| %>
+          <div class="input-group mb-3">
+            <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  } %>
+              <div class="input-group-append">
+                <%= f.submit "エリア検索", class: 'btn btn-outline-secondary' %>
+              </div>
+          </div>
+          <% end %>
       </div>
+    </div>
+    <div class="col-md-5"> 並び替え|
+      <%= link_to '評価の高い順', institutions_path(star_count: "true") %>|
+        <%= link_to 'レビュー順', institutions_path(review: "true") %>|
+          <%= link_to 'お気に入り順', institutions_path(bookmark: "true") %>
+    </div>
+    <div class="col-md-11">
+      <h2>サウナ一覧</h2>
+      <table class="table">
+        <thead class="thead-light">
+          <th></th>
+          <th>サウナ名</th>
+          <th>評価</th>
+          <th>エリア</th>
+        </thead>
+        <% @institutions.each do |institution| %>
+          <tbody>
+            <td>
+              <%= link_to institution_path(institution.id) do %>
+                <% if institution.images.attached? %>
+                  <%= image_tag institution.images.first, size: "120x120" %>
+                    <% else %>
+                      <%= image_tag 'no.images', size: "120x120" %>
+                        <% end %>
+                          <% end %>
+            </td>
+            <td>
+              <%= link_to institution_path(institution.id) do %>
+                <%= institution.name %>
+                  <% end %>
+            </td>
+            <td>
+              <h3><span id="star-rate-<%= institution.id %>"></span>
+                <script>
+                  var elm = document.getElementById("star-rate-<%= institution.id %>")
+                  $("#star-rate-<%= institution.id %>").empty();
+                  var opt = {
+                    size: 36,
+                    starOff: "<%= asset_path('star-off.png') %>",
+                    starOn: "<%= asset_path('star-on.png') %>",
+                    starHalf: "<%= asset_path('star-half.png') %>",
+                    half: true,   
+                    readOnly: true,   
+                    score: <%= institution.reviews.average(:star).to_f.round(1) %>   
+                  }
+                   raty(elm, opt);
+                </script>
+                <%= institution.reviews.average(:star).to_f.round(1) %>
+              </h3> <i class="far fa-comment"></i>
+              <%= institution.reviews.count %>人　 <i class="far fa-bookmark"></i>
+                <%= institution.bookmarks.count %>人 </td>
+            <td>
+              <%= link_to area_path(area: Institution.areas[institution.area]) do %>
+                <%= Institution.areas_i18n[institution.area] %>
+                  <% end %>
+            </td>
+            <% end %>
+              <%= paginate @institutions %>
+          </tbody>
+      </table>
+    </div>
   </div>
 </div>

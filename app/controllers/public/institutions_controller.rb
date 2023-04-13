@@ -18,13 +18,11 @@ class Public::InstitutionsController < ApplicationController
 
   def index
     if params[:review]
-     @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc')
+     @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc').page(params[:page])
     elsif params[:bookmark]
-    #  @institutions = Institution.find(Bookmark.group(:institution_id).order('count(institution_id) desc').pluck(:institution_id))
-     @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc')
+     @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc').page(params[:page])
     elsif params[:star_count]
-    #  @institutions = Institution.find(Review.group(:institution_id).order('avg(star) desc').pluck(:institution_id))
-     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc')
+     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc').page(params[:page])
     else
      @institutions = Institution.page(params[:page])
     end 
@@ -32,17 +30,16 @@ class Public::InstitutionsController < ApplicationController
   
   def area
    if params[:review]
-      @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc')
+      @institutions = Institution.left_joins(:reviews).group(:id).order('count(reviews.institution_id) desc').page(params[:page])
    elsif params[:bookmark]
-      @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc')
+      @institutions = Institution.left_joins(:bookmarks).group(:id).order('count(bookmarks.institution_id) desc').page(params[:page])
    elsif params[:star_count]
-    #   @institutions = Institution.find(Review.group(:star).order('avg(star) desc').pluck(:institution_id))
-     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc')
+     @institutions = Institution.left_joins(:reviews).group(:id).order('avg(reviews.star) desc').page(params[:page])
    else
-      @institutions = Institution.all
+      @institutions = Institution.page(params[:page])
    end  
    if params[:area]
-     @institutions = @institutions.where(area: params[:area])
+     @institutions = @institutions.where(area: params[:area]).page(params[:page])
    end 
   end  
   

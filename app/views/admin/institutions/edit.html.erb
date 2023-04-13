@@ -1,58 +1,90 @@
 <div class="container">
-   <div class="row pt-5">
-       
-       
-    <div class="col-xl-9 ml-auto">
-<%= form_with model: @institution, url: admin_institution_path, method: :patch do |f| %>
-
-<h4>施設編集</h4>
-<table>
-<tr>
-<td><%= f.label :施設名 %></td>
-<td><%= f.text_field :name %></td>
-</tr>
-<tr>
-<td><%= f.label :image, '画像' %></td>
-<td><%= f.file_field :images, multiple: true  %></td>
-</tr>
-<tr>
-<td><%= f.label :地域 %></td>
-<td><%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, class: "mb-3 sm:mb-0 mr-9 border border-line-200 rounded-[3px] rounded-[3px] py-3 pl-6 w-52 h-12 font-bold" %></td>
-</tr>
-<tr>
-<td><%= f.label :住所 %></td>
-<td><%= f.text_field :address %></td>
-</tr>
-<tr>
-<td><%= f.label :ホームページ %></td>
-<td><%= f.text_field :link %></td>
-</tr>
-<tr>
-<td><%= f.label :営業時間 %></td>
-<td><%= f.time_select :start_time %>~<%= f.time_select :finish_time %></td>
-</tr>
-<tr>
-<td><%= f.label :利用料金 %></td>
-<td><%= f.text_field :price %></td>
-</tr>
-<tr>
-<td><%= f.label :電話番号 %></td>
-<td><%= f.text_field :telephone_number %></td>
-</tr>
-<tr>
-<td><%= f.label :基本情報 %></td>
-<td><%= f.text_area :introduction %></td>
-</tr>
-<tr>
-<td></td>
-<td><%= f.submit '編集内容を保存', class: 'btn btn-success px-4' %>
-<% end %>
-
-           <%= link_to "削除", institution_path(@institution.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: 'btn btn-danger px-4'  %>
-           
-           </td>
-</tr>
-</table>
-</div>
-</div>
+  <div class="row mt-5">
+    <div class="offset-sm-2 col-sm-8">
+      <% if @institution.errors.any? %>
+        <%= @institution.errors.count %>件のエラーが発生しました
+          <ul>
+            <% @institution.errors.full_messages.each do |message| %>
+              <li>
+                <%= message %>
+              </li>
+              <% end %>
+          </ul>
+          <% end %>
+            <h4 class="mt-4 mb-5">施設編集</h4>
+            <%= form_with model: @institution, url: admin_institution_path, method: :patch do |f| %>
+              <div class="form-group row">
+                <%= f.label :name, '施設名', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :name, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :images, '画像', class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.file_field :images, multiple: true %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :area, "地域", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.select :area, Institution.areas.keys.map {|k| [I18n.t("enums.institution.area.#{k}"), k]}, { include_blank: "選択してください"  }, { class: "form-control" } %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :address, "住所", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :address, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :link, "ホームページ", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :link, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label "営業時間", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-4 d-flex">
+                        <%= f.time_select :start_time, {}, {class: "form-control" } %>
+                      </div> ~
+                      <div class="col-4 d-flex">
+                        <%= f.time_select :finish_time, {}, {class: "form-control" } %>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :price, "利用料金", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :price, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :telephone_number, "電話番号", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_field :telephone_number, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :introduction, "基本情報", class: "col-sm-2 col-form-label" %>
+                  <div class="col-sm-10">
+                    <%= f.text_area :introduction, class: "form-control" %>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                  <%= f.submit '編集内容を保存', class: 'btn btn-success btn-block mt-3' %>
+                </div>
+              </div>
+            <% end %>
+                <div class="form-group row">
+                  <div class="offset-sm-2 col-sm-10">
+                    <%= link_to "削除", institution_path(@institution.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: 'btn btn-danger btn-block mb-5' %>
+                  </div>
+                </div>
+    </div>
+  </div>
 </div>
