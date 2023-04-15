@@ -88,7 +88,7 @@
                         <% if institution.images.attached? %>
                          <%= image_tag institution.images.first, size: "90x60" %>
                         <% else %>
-                         <%= image_tag 'no.images', size: "90x60" %>
+                         <%= image_tag asset_path('no_immages.jpg'), size: "90x60" %>
                         <% end %>   
                         <% end %> <br>
                         <%= link_to institution_path(institution.id) do %>
