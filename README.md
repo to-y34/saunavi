@@ -30,7 +30,10 @@
 
 
 ## 設計書
-
+ER図のURL
+https://app.diagrams.net/#G1WWXXoyzGqRcnNfUMVYTDbmgkMb90cOfK
+テーブル定義書のURL
+https://docs.google.com/spreadsheets/d/1BsdF8tpojrtFqcu_6UKdgp08y6M5S6tvu5i7DAeXZhI/edit#gid=1739957604
 実装機能のURL
 https://docs.google.com/spreadsheets/d/1AyqwhBYDWwfftiCHFcUJp0wihp4CP5SmDBRPtC5aT_E/edit#gid=1091086188
 
