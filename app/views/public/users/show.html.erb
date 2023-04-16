@@ -3,11 +3,12 @@
     <%= flash[:notice] %>
   </div>
   <div class="row pt-5">
-    <div class="col-md-4">
-      <h1>
+    <div class="col-md-5">
+      <h2>
         <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
           <%= @user.nickname %> (
-            <%= @user.age %>)</h1>
+            <%= @user.age %>)
+      </h2>
     </div>
     <div class="col-md-4">
       <%= @user.introduction %>
