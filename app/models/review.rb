@@ -10,6 +10,7 @@ class Review < ApplicationRecord
     
     validates :title, presence: true
     validates :star, presence: true
+    validates :date, presence: true
     
     def liked?(user)
      likes.where(user_id: user.id).exists?

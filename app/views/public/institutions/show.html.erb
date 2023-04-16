@@ -29,10 +29,10 @@
             <h1>
               <%= @institution.name %>
             </h1>
-            <h3><span id="star-rate-<%= @institution.id %>"></span>
+            <h3><span id="star-rate-show<%= @institution.id %>"></span>
               <script>
-                var elm = document.getElementById("star-rate-<%= @institution.id %>")
-                $("#star-rate-<%= @institution.id %>").empty();
+                var elm = document.getElementById("star-rate-show<%= @institution.id %>")
+                $("#star-rate-show<%= @institution.id %>").empty();
                 var opt = {
                   size: 36,
                   starOff: "<%= asset_path('star-off.png') %>",
