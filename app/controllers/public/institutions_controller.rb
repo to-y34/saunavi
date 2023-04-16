@@ -88,6 +88,7 @@ class Public::InstitutionsController < ApplicationController
   def destroy
     @institution = Institution.find(params[:id])
     @institution.destroy
+    flash[:notice] = "施設を削除しました"
     redirect_to institutions_path
   end  
   
