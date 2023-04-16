@@ -12,6 +12,9 @@ class User < ApplicationRecord
          
          has_one_attached :profile_image
          
+         validates :nickname, presence: true
+         validates :age, presence: true
+         validates :sex, presence: true
       
          
     def get_profile_image(width, height)

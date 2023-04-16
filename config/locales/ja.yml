@@ -9,6 +9,10 @@
        review:
         title: "タイトル"
         star: "星評価"
+       user:
+        nickname: "ニックネーム"
+        age: "年齢"
+        sex: "性別"
       errors:
         messages:
           record_invalid: "バリデーションエラー: %{errors}"
