@@ -11,6 +11,7 @@
   </div>  
   <div class="row mt-2">
     <div class="col-md-8 offset-md-2">
+      <!--投稿レビューがログインユーザーのものなら、削除機能を追加-->
       <% if @review.user == current_user %>
         <%= link_to 'レビュー削除', institution_review_path(@institution,@review.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-danger px-2' %>
           <% end %>
@@ -23,6 +24,7 @@
                         <%= @review.user.nickname %>さんのレビュー </th>
                 <th>
                   <div>
+                    <!--いいね機能-->
                     <% if user_signed_in? %>
                     <% if @review.liked?(current_user) %>
                       <%= link_to institution_review_likes_path(@institution,@review), method: :delete do %> <i class="fas fa-heart"></i>
@@ -70,6 +72,7 @@
                       </div>
                 </th>
               </tr>
+              <!--food_imageがある場合はサ食レビューを表示-->
               <% if @review.food_image.attached? %>
                 <tr>
                   <th colspan='2'>
@@ -87,6 +90,7 @@
                     </td>
                 </tr>
                 <% end %>
+                <!--trip_imageがある場合はサ旅レビューを表示-->
                   <% if @review.trip_image.attached? %>
                     <tr>
                       <th colspan='2'>
@@ -112,13 +116,16 @@
                               <%= image_tag comment.user.get_profile_image(30,30), class: "rounded-circle" %>
                             <% end %>  
                                 <%= comment.user.nickname %>
-                                  <%= comment.created_at.strftime('%m/%d %H:%M') %><% if comment.user == current_user %>
+                                  <%= comment.created_at.strftime('%m/%d %H:%M') %>
+                                  <!--コメントしたユーザーが、ログインしたユーザーなら、削除機能を追加-->
+                                  <% if comment.user == current_user %>
                                   <%= link_to 'コメント削除', institution_review_comment_path(@institution,@review,comment.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-danger px-2' %>
                                   <% end %>
                                     </br>
                                     <%= comment.text %>
                                       </br>
                                       <% end %>
+                                      <!--コメント投稿フォーム-->
                                         <%= form_with model: [@institution,@review,@comment] do |f| %>
                                           <%= f.text_area :text, placeholder: "コメントを入力",:size=>"30" %><br>
                             </div>

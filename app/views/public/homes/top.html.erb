@@ -1,3 +1,4 @@
+  <!--ヘッダー画像の表示-->
   <div class="jumbotron jumbotron-fluid bg_header">
     <div class="container">
       <h1 class="display-4">saunavi</h1>
@@ -12,6 +13,7 @@
     <div class="col-1"></div>
     <div class="col-7">
       <div>
+        <!--キーワード検索-->
         <h2>キーワードから探す</h2>
         <div class="post_search">
          <%= form_with url: search_path, method: :get, local: true do |f| %>
@@ -25,6 +27,7 @@
         </div>
       </div>
       <div>
+        <!--エリア検索-->
         <div class="d-flex pt-4">
           <h2>エリアから探す</h2>
           <div class="ml-4 area_search">
@@ -79,6 +82,7 @@
          </div>
         </div>
       </div>
+      <!--お気に入りが多い順にサウナを表示-->
       <div class="pt-4">
         <h2>人気のサウナ3選</h2>
         <div class="row pt-4 offset-1">
@@ -115,6 +119,7 @@
           <% end %>
         </div>
       </div>
+      <!--最新のレビューを３つ表示-->
       <div class="pt-4">
         <h2>新着レビュー</h2>
         <div>

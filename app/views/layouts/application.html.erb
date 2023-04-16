@@ -19,6 +19,7 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
               <% if user_signed_in? %>
+              <!--会員ヘッダー-->
                 <li>
                   <%= link_to new_institution_path, class: "nav-link text-light"  do %><i class="fas fa-plus"></i>施設登録
                     <% end %>
@@ -37,6 +38,7 @@
                       <% end %>
                 </li>
                 <% elsif admin_signed_in? %>
+                <!--管理者ヘッダー-->
                   <li>
                     <%= link_to admin_institutions_path, class: "nav-link text-light"  do %> <i class="fas fa-fire"></i>サウナ一覧
                       <% end %>
@@ -54,6 +56,7 @@
                       <% end %>
                   </li>
                   <% else %>
+                  <!--ログインしていない時のヘッダー-->
                     <li>
                       <%= link_to institutions_path, class: "nav-link text-light"  do %> <i class="fas fa-fire"></i>サウナ一覧
                         <% end %>

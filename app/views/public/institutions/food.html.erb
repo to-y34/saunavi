@@ -4,6 +4,7 @@
   </div>
   <div class="row pt-4">
     <div class="col-md-1 offset-md-8">
+      <!--ブックマーク機能-->
       <% if @institution.bookmarked_by?(current_user) %>
         <%= link_to  institution_bookmarks_path(@institution), method: :delete, class: "btn btn-outline-secondary btn-block" do  %> <i class="fas fa-bookmark"></i>
           <% end %>
@@ -13,10 +14,12 @@
                   <% end %>
     </div>
     <div class="col-md-1">
+      <!--レビュー投稿-->
       <%= link_to new_institution_review_path(@institution), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-pencil-alt"></i>
         <% end %>
     </div>
     <div class="col-md-1">
+      <!--施設編集-->
       <%= link_to edit_institution_path(@institution), class: "btn btn-outline-secondary btn-block" do %> <i class="fas fa-cog"></i>
         <% end %>
     </div>
@@ -57,6 +60,7 @@
         <tr>
           <th colspan='3'>
             <div class="row">
+              <!----サ活、サ食、サ旅で表示している箇所に下線-->
                <div class="col-md-4">
              <h2>
               <%= link_to  institution_path(@institution), class: "btn btn-outline-white btn-block" do  %> サ活
@@ -82,6 +86,7 @@
           <th colspan='3'>
             <div class="row">
             <% @institution.reviews.each do |review| %>
+            <!--food_imageがある場合はレビューを表示-->
               <% if review.food_image.attached? %>
                 <div class="col-md-4">
                 <%= link_to institution_review_path(@institution,review.id) do %>

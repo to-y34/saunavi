@@ -16,7 +16,7 @@ class User < ApplicationRecord
          validates :age, presence: true
          validates :sex, presence: true
       
-         
+         # プロフィール画像
     def get_profile_image(width, height)
      unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/no_image.jpg')
@@ -25,6 +25,7 @@ class User < ApplicationRecord
      profile_image.variant(resize_to_limit: [width, height]).processed
     end
   
+  # ゲストログイン
   def self.guest
       find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64

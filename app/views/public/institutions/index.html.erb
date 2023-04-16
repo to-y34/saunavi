@@ -4,6 +4,7 @@
   </div>
   <div class="row mt-4">
     <div class="col-md-3 offset-md-1">
+      <!--キーワード検索機能-->
       <div class="post_search">
         <%= form_with url: search_path, method: :get, local: true do |f| %>
           <div class="input-group mb-3">
@@ -16,6 +17,7 @@
       </div>
     </div>
     <div class="col-md-3">
+      <!--エリア検索機能-->
       <div class="area_search">
         <%= form_with url: area_path, method: :get, local: true do |f| %>
           <div class="input-group mb-3">
@@ -27,6 +29,7 @@
           <% end %>
       </div>
     </div>
+    <!--ソート機能-->
     <div class="col-md-5"> 並び替え|
       <%= link_to '評価の高い順', institutions_path(star_count: "true") %>|
         <%= link_to 'レビュー順', institutions_path(review: "true") %>|
@@ -78,6 +81,7 @@
               <%= institution.reviews.count %>人　 <i class="far fa-bookmark"></i>
                 <%= institution.bookmarks.count %>人 </td>
             <td>
+              <!--エリアのリンクを押すとエリア検索がかかるように表示-->
               <%= link_to area_path(area: Institution.areas[institution.area]) do %>
                 <%= Institution.areas_i18n[institution.area] %>
                   <% end %>

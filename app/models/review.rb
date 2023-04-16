@@ -12,10 +12,12 @@ class Review < ApplicationRecord
     validates :star, presence: true
     validates :date, presence: true
     
+    # いいねが存在しているか
     def liked?(user)
      likes.where(user_id: user.id).exists?
     end
     
+    #  星レビューバリデーション
      validates :star, numericality: {
     less_than_or_equal_to: 5,
     greater_than_or_equal_to: 1

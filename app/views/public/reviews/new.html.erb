@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row mt-5 mb-5">
+    <!--エラーメッセージ-->
     <% if @review.errors.any? %>
         <%= @review.errors.count %>件のエラーが発生しました
           <ul>
@@ -12,6 +13,7 @@
           <% end %>
     <div class="offset-sm-2 col-sm-8 mb-5">
       <h4>サウナレビュー</h4>
+      <!--レビュー投稿フォーム-->
       <%= form_with model: [@institution,@review] do |f| %>
         <div class="form-group row">
           <%= f.label :star, "星評価", class: "col-sm-2 col-form-label" %>

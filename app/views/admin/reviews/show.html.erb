@@ -11,6 +11,7 @@
   </div> 
   <div class="row mt-2">
     <div class="col-md-6 offset-md-3">
+      <!--レビューの削除-->
       <%= link_to 'レビュー削除', admin_review_path(@review.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-danger px-2' %>
         <table class="table">
           <tr>
@@ -60,6 +61,7 @@
                   </div>
             </th>
           </tr>
+          <!--サ食の画像がある場合はサ食レビューを表示-->
           <% if @review.food_image.attached? %>
             <tr>
               <th colspan='2'>
@@ -77,6 +79,7 @@
                 </td>
             </tr>
             <% end %>
+            <!--サ旅の画像がある場合はサ旅レビューを表示-->
               <% if @review.trip_image.attached? %>
                 <tr>
                   <th colspan='2'>
@@ -97,12 +100,15 @@
                   <tr>
                     <th colspan='2'>
                       <div class="col-md-12 offset-md-2">
+                        <!--コメント表示-->
                         <% @review.comments.each do |comment| %>
                           <%= link_to admin_user_path(comment.user.id) do %>
                             <%= image_tag comment.user.get_profile_image(30,30), class: "rounded-circle" %>
                               <% end %>
                                 <%= comment.user.nickname %>
                                   <%= comment.created_at.strftime('%m/%d %H:%M') %>
+                                  <!--管理者としてコメントを削除できるようにする-->
+                                  <%= link_to 'コメント削除', admin_comment_path(@review,comment.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-danger px-2' %>
                                     </br>
                                     <%= comment.text %>
                                       </br>

@@ -3,7 +3,7 @@
     <%= flash[:notice] %>
   </div>
   <div class="row pt-5">
-    <div class="col-md-4 offset-md-1">
+    <div class="col-md-6 offset-md-1">
       <h1>
         <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle" %>
           <%= @user.nickname %> (
@@ -19,7 +19,8 @@
   </div>
 </div>
 <div class="row pt-2">
-  <div class="col-md-5 offset-md-3">
+  <div class="col-md-8 offset-md-2">
+    <!--会員のレビュー一覧-->
     <table class="table">
       <tr>
         <th>

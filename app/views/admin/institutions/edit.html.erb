@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row mt-5">
     <div class="offset-sm-2 col-sm-8">
+      <!--エラーメッセージ-->
       <% if @institution.errors.any? %>
         <%= @institution.errors.count %>件のエラーが発生しました
           <ul>
@@ -11,6 +12,7 @@
               <% end %>
           </ul>
           <% end %>
+          <!--編集フォーム-->
             <h4 class="mt-4 mb-5">施設編集</h4>
             <%= form_with model: @institution, url: admin_institution_path, method: :patch do |f| %>
               <div class="form-group row">
