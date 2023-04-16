@@ -48,8 +48,9 @@ namespace :admin do
    resources :institutions, only: [:index, :show, :edit, :update , :destroy]
    get "search" => "institutions#search"
    resources :users, only: [:index, :show, :edit, :update]
-   resources :reviews, only: [:index, :show, :destroy]
-   resources :comments, only: [:destroy]
+   resources :reviews, only: [:index, :show, :destroy] do
+    resources :comments, only: [:destroy]
+   end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
