@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row mt-5">
-    <!--エラーメッセージ-->
+    
+    <div class="offset-sm-2 col-sm-8">
+        <!--エラーメッセージ-->
     <% if @institution.errors.any? %>
         <%= @institution.errors.count %>件のエラーが発生しました
         <ul>
@@ -9,7 +11,7 @@
           <% end %>
         </ul>
       <% end %>
-    <div class="offset-sm-2 col-sm-8">
+      
       <!--施設投稿フォーム-->
       <h4 class="mt-4 mb-5">施設新規登録</h4>
       <%= form_with model: @institution, url: '/institutions', method: :post, class: "mb-5" do |f| %>
