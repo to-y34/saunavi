@@ -12,8 +12,9 @@ class User < ApplicationRecord
          
          has_one_attached :profile_image
          
+         # バリデーション
          validates :nickname, presence: true
-         validates :age, presence: true
+         validates :age, numericality: { only_integer: true, greater_than: 0, less_than: 100 }
          validates :sex, presence: true
       
          # プロフィール画像
